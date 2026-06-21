@@ -9,13 +9,13 @@
   "theme_color": "#4A148C",
   "icons": [
     {
-      "src": "Logo%20Database%20SRBM.png",
+     "src": "icon.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "Logo%20Database%20SRBM.png",
+     "src": "icon.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
