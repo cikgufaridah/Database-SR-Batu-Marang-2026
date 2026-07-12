@@ -194,12 +194,13 @@
 
     .dashboard {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       gap: 15px;
       margin-bottom: 22px;
     }
 
     .dash-card {
+      cursor: pointer;
       padding: 18px;
       border-radius: 18px;
       text-align: center;
@@ -217,7 +218,8 @@
     .jumlah { background: linear-gradient(135deg, #f9c5d3, #ffe3ea); }
     .lelaki { background: linear-gradient(135deg, #ffd2a1, #ffe8c8); }
     .perempuan { background: linear-gradient(135deg, #f5b8c8, #ffdce5); }
-    .status { background: linear-gradient(135deg, #c6e8cb, #e2f4e5); }
+    .harilahir { background: linear-gradient(135deg, #ffe7a8, #fff4cf); }
+    .tidaklengkap { background: linear-gradient(135deg, #c6e8cb, #e2f4e5); }
 
     .result {
       margin-top: 20px;
@@ -316,13 +318,14 @@
 <body>
   <div class="container">
     <h1>DATABASE MURID<br>SEKOLAH RENDAH BATU MARANG</h1>
-    <p class="subtajuk">Disediakan oleh: Cikgu Faridah binti Haji Japarali</p>
+    <p class="subtajuk">Guru Besar: Cikgu Rohaya binti Yusof<br>Sesi Persekolahan 2026</p>
 
     <div class="dashboard">
       <div class="dash-card jumlah">Jumlah Murid <span id="jumlahMurid">0</span></div>
       <div class="dash-card lelaki">Lelaki <span id="jumlahLelaki">0</span></div>
       <div class="dash-card perempuan">Perempuan <span id="jumlahPerempuan">0</span></div>
-      <div class="dash-card status">Status <span id="statusDb">Online</span></div>
+      <div class="dash-card harilahir">Hari Lahir Bulan Ini <span id="jumlahHariLahir">0</span></div>
+      <div class="dash-card tidaklengkap">Maklumat Tidak Lengkap <span id="jumlahTidakLengkap">0</span></div>
     </div>
 
     <div class="form-section">
@@ -643,11 +646,9 @@
         });
 
         kemasKiniDashboard(senaraiMurid);
-        el("statusDb").textContent = "Online";
         paparData(senaraiMurid);
       } catch (error) {
         console.error(error);
-        el("statusDb").textContent = "Ralat";
         alert("Ralat membaca data. Sila semak Firestore Rules.");
       }
     }
@@ -660,6 +661,36 @@
       el("jumlahPerempuan").textContent = data.filter(
         (murid) => murid.jantina === "Perempuan"
       ).length;
+
+      const bulanSemasa = new Date().getMonth() + 1;
+
+      const hariLahirBulanIni = data.filter((murid) => {
+        if (!murid.tarikhLahir) return false;
+        const bahagianTarikh = murid.tarikhLahir.split("-");
+        return bahagianTarikh.length >= 2 &&
+               Number(bahagianTarikh[1]) === bulanSemasa;
+      }).length;
+
+      el("jumlahHariLahir").textContent = hariLahirBulanIni;
+
+      const maklumatTidakLengkap = data.filter((murid) => {
+        return !murid.nama ||
+               !murid.idSekolah ||
+               !murid.tahun ||
+               !murid.jantina ||
+               !murid.tarikhLahir ||
+               !murid.suratBeranak ||
+               !murid.bruhims ||
+               !murid.alamat ||
+               !murid.namaAyah ||
+               !murid.telefonAyah ||
+               !murid.namaIbu ||
+               !murid.telefonIbu ||
+               !murid.namaPenjaga ||
+               !murid.telefon;
+      }).length;
+
+      el("jumlahTidakLengkap").textContent = maklumatTidakLengkap;
     }
 
     function cariMurid() {
@@ -837,6 +868,40 @@
       el("jantina").value = "";
       el("kaitan").value = "";
     }
+
+
+    el("jumlahHariLahir").parentElement.addEventListener("click", () => {
+      const bulanSemasa = new Date().getMonth() + 1;
+      const hasil = senaraiMurid.filter((murid) => {
+        if (!murid.tarikhLahir) return false;
+        const bahagianTarikh = murid.tarikhLahir.split("-");
+        return bahagianTarikh.length >= 2 &&
+               Number(bahagianTarikh[1]) === bulanSemasa;
+      });
+      paparData(hasil);
+      el("result").scrollIntoView({ behavior: "smooth" });
+    });
+
+    el("jumlahTidakLengkap").parentElement.addEventListener("click", () => {
+      const hasil = senaraiMurid.filter((murid) => {
+        return !murid.nama ||
+               !murid.idSekolah ||
+               !murid.tahun ||
+               !murid.jantina ||
+               !murid.tarikhLahir ||
+               !murid.suratBeranak ||
+               !murid.bruhims ||
+               !murid.alamat ||
+               !murid.namaAyah ||
+               !murid.telefonAyah ||
+               !murid.namaIbu ||
+               !murid.telefonIbu ||
+               !murid.namaPenjaga ||
+               !murid.telefon;
+      });
+      paparData(hasil);
+      el("result").scrollIntoView({ behavior: "smooth" });
+    });
 
     el("btnSimpan").addEventListener("click", simpanData);
     el("btnReset").addEventListener("click", resetBorang);
