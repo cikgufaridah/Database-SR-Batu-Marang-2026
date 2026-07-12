@@ -3,33 +3,52 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Database Murid SRBM - Firestore</title>
-<link rel="icon" type="image/png" href="icon.png">
+
+  <link rel="icon" type="image/png" href="icon.png">
   <link rel="apple-touch-icon" href="icon.png">
   <link rel="manifest" href="manifest.json">
+
   <style>
+    :root {
+      --pink: #f7b6c8;
+      --pink-dark: #b75b79;
+      --orange: #ffd3a5;
+      --orange-dark: #c97b32;
+      --green: #cdeccf;
+      --green-dark: #4f8f62;
+      --cream: #fffaf4;
+      --text: #3d3d3d;
+      --border: #eadfd7;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #e8f5ff, #fff0f6, #f3ffe8);
+      background: linear-gradient(135deg, #fff1f5, #fff7e8, #eef9ef);
       margin: 0;
       padding: 20px;
-      color: #222;
+      color: var(--text);
     }
 
     .container {
-      max-width: 1150px;
+      max-width: 1180px;
       margin: auto;
-      background: #ffffff;
-      padding: 25px;
-      border-radius: 20px;
-      box-shadow: 0 8px 25px rgba(106,27,154,0.18);
-      border-top: 10px solid #7b1fa2;
+      background: rgba(255,255,255,0.96);
+      padding: 26px;
+      border-radius: 22px;
+      box-shadow: 0 10px 30px rgba(91, 78, 72, 0.14);
+      border-top: 10px solid var(--pink);
     }
 
     h1 {
       text-align: center;
-      margin-bottom: 5px;
-      color: #6a1b9a;
+      margin: 0 0 8px;
+      color: #8f4f61;
       letter-spacing: 1px;
       line-height: 1.25;
     }
@@ -37,17 +56,48 @@
     .subtajuk {
       text-align: center;
       margin-bottom: 25px;
-      color: #ffffff;
-      background: linear-gradient(90deg, #7b1fa2, #1976d2, #00897b);
-      padding: 10px;
+      color: #5a4b45;
+      background: linear-gradient(90deg, var(--pink), var(--orange), var(--green));
+      padding: 11px;
       border-radius: 25px;
       font-weight: bold;
     }
 
     h2 {
-      color: #1976d2;
-      border-left: 6px solid #ff9800;
+      color: #8f4f61;
+      border-left: 7px solid var(--orange);
       padding-left: 10px;
+      margin-top: 0;
+    }
+
+    .section-title {
+      grid-column: 1 / -1;
+      margin-top: 10px;
+      padding: 11px 14px;
+      border-radius: 12px;
+      font-size: 17px;
+      font-weight: bold;
+      color: #5a4b45;
+    }
+
+    .murid-title {
+      background: #fff0f4;
+      border-left: 6px solid var(--pink);
+    }
+
+    .ayah-title {
+      background: #fff3e4;
+      border-left: 6px solid var(--orange);
+    }
+
+    .ibu-title {
+      background: #eef9ef;
+      border-left: 6px solid var(--green);
+    }
+
+    .hubungi-title {
+      background: linear-gradient(90deg, #fff0f4, #fff3e4, #eef9ef);
+      border-left: 6px solid #d8a0a8;
     }
 
     label {
@@ -58,16 +108,22 @@
 
     input, textarea, select {
       width: 100%;
-      padding: 10px;
+      padding: 11px;
       margin-top: 5px;
-      border: 2px solid #d7c6f3;
-      border-radius: 8px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
       font-size: 15px;
-      box-sizing: border-box;
+      background: #fffefe;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--pink-dark);
+      box-shadow: 0 0 0 3px rgba(247,182,200,0.25);
     }
 
     textarea {
-      min-height: 70px;
+      min-height: 78px;
       resize: vertical;
     }
 
@@ -85,65 +141,71 @@
       border: none;
       padding: 11px 18px;
       margin-top: 15px;
-      border-radius: 8px;
+      border-radius: 10px;
       cursor: pointer;
       font-weight: bold;
       font-size: 15px;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      opacity: 0.95;
     }
 
     .btn-simpan {
-      background: linear-gradient(90deg, #43a047, #00897b);
-      color: white;
+      background: linear-gradient(90deg, #7bbf8d, #9fd3aa);
+      color: #173b23;
     }
 
     .btn-reset {
-      background: linear-gradient(90deg, #757575, #546e7a);
-      color: white;
+      background: linear-gradient(90deg, #e8c7b1, #d9c1b0);
+      color: #4b3b32;
     }
 
     .btn-search {
-      background: linear-gradient(90deg, #1976d2, #6a1b9a);
-      color: white;
+      background: linear-gradient(90deg, #ef9fb6, #f6bdcc);
+      color: #542335;
     }
 
     .btn-edit {
-      background: linear-gradient(90deg, #fb8c00, #fdd835);
-      color: white;
+      background: linear-gradient(90deg, #ffc98b, #ffdda9);
+      color: #5c3510;
       margin-right: 6px;
     }
 
     .btn-padam {
-      background: linear-gradient(90deg, #e53935, #ad1457);
+      background: linear-gradient(90deg, #d97c8f, #ec9bab);
       color: white;
     }
 
     .btn-cetak {
-      background: linear-gradient(90deg, #00acc1, #3949ab);
-      color: white;
+      background: linear-gradient(90deg, #9fcfa9, #c8e8cc);
+      color: #244b2d;
     }
 
     .search-box {
-      background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+      background: linear-gradient(135deg, #fff0f4, #fff6e8, #eff9f0);
       padding: 18px;
-      border-radius: 12px;
+      border-radius: 14px;
       margin: 25px 0;
-      border-left: 8px solid #7b1fa2;
+      border-left: 8px solid var(--pink);
     }
 
     .dashboard {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 15px;
-      margin-bottom: 20px;
+      margin-bottom: 22px;
     }
 
     .dash-card {
-      color: white;
       padding: 18px;
-      border-radius: 16px;
+      border-radius: 18px;
       text-align: center;
       font-weight: bold;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      color: #4a3b37;
     }
 
     .dash-card span {
@@ -152,46 +214,61 @@
       margin-top: 5px;
     }
 
-    .ungu { background: linear-gradient(135deg, #7b1fa2, #ba68c8); }
-    .biru { background: linear-gradient(135deg, #1976d2, #64b5f6); }
-    .pink { background: linear-gradient(135deg, #c2185b, #f48fb1); }
-    .hijau { background: linear-gradient(135deg, #00897b, #4db6ac); }
+    .jumlah { background: linear-gradient(135deg, #f9c5d3, #ffe3ea); }
+    .lelaki { background: linear-gradient(135deg, #ffd2a1, #ffe8c8); }
+    .perempuan { background: linear-gradient(135deg, #f5b8c8, #ffdce5); }
+    .status { background: linear-gradient(135deg, #c6e8cb, #e2f4e5); }
 
     .result {
       margin-top: 20px;
     }
 
     .card {
-      border: 2px solid #e1bee7;
-      border-radius: 12px;
-      padding: 18px;
-      background: linear-gradient(135deg, #ffffff, #f8f0ff);
-      margin-bottom: 15px;
+      border: 2px solid #eadfd7;
+      border-radius: 16px;
+      padding: 20px;
+      background: linear-gradient(135deg, #ffffff, #fff9f5, #f7fcf7);
+      margin-bottom: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     }
 
     .card h3 {
       margin-top: 0;
-      color: #6a1b9a;
+      color: #8f4f61;
+      border-bottom: 2px solid #f3d8df;
+      padding-bottom: 8px;
     }
+
+    .card-section {
+      margin-top: 16px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+
+    .card-section.ayah { background: #fff2df; }
+    .card-section.ibu { background: #edf8ee; }
+    .card-section.hubungi { background: #fff0f4; }
 
     .info {
       display: grid;
-      grid-template-columns: 240px 1fr;
+      grid-template-columns: 250px 1fr;
       gap: 8px;
-      margin: 6px 0;
+      margin: 7px 0;
+      align-items: start;
     }
 
     .info b {
-      color: #333;
+      color: #4a403c;
     }
 
     .nota {
-      background: #fff3cd;
+      background: #fff6dc;
       padding: 12px;
       border-radius: 10px;
       margin-top: 15px;
       font-size: 14px;
-      border-left: 6px solid #ff9800;
+      border-left: 6px solid var(--orange);
     }
 
     @media (max-width: 850px) {
@@ -204,7 +281,7 @@
       }
 
       h1 {
-        font-size: 34px;
+        font-size: 29px;
       }
     }
 
@@ -213,7 +290,13 @@
         background: white;
       }
 
-      .form-section, .search-box, .btn-edit, .btn-padam, .btn-cetak, .nota, .dashboard {
+      .form-section,
+      .search-box,
+      .btn-edit,
+      .btn-padam,
+      .btn-cetak,
+      .nota,
+      .dashboard {
         display: none;
       }
 
@@ -224,6 +307,7 @@
 
       .card {
         page-break-inside: avoid;
+        box-shadow: none;
       }
     }
   </style>
@@ -235,18 +319,19 @@
     <p class="subtajuk">Disediakan oleh: Cikgu Faridah binti Haji Japarali</p>
 
     <div class="dashboard">
-      <div class="dash-card ungu">Jumlah Murid <span id="jumlahMurid">0</span></div>
-      <div class="dash-card biru">Lelaki <span id="jumlahLelaki">0</span></div>
-      <div class="dash-card pink">Perempuan <span id="jumlahPerempuan">0</span></div>
-      <div class="dash-card hijau">Status <span id="statusDb">Online</span></div>
+      <div class="dash-card jumlah">Jumlah Murid <span id="jumlahMurid">0</span></div>
+      <div class="dash-card lelaki">Lelaki <span id="jumlahLelaki">0</span></div>
+      <div class="dash-card perempuan">Perempuan <span id="jumlahPerempuan">0</span></div>
+      <div class="dash-card status">Status <span id="statusDb">Online</span></div>
     </div>
 
     <div class="form-section">
       <h2>Borang Maklumat Murid</h2>
-
       <input type="hidden" id="docId" />
 
       <div class="grid">
+        <div class="section-title murid-title">A. Maklumat Murid</div>
+
         <div class="full">
           <label>Nama Penuh Murid</label>
           <input type="text" id="nama" placeholder="Contoh: Muhammad Danish bin Ahmad" />
@@ -272,7 +357,7 @@
         </div>
 
         <div>
-          <label>Jantina / Gender</label>
+          <label>Jantina</label>
           <select id="jantina">
             <option value="">-- Pilih Jantina --</option>
             <option>Lelaki</option>
@@ -300,13 +385,59 @@
           <textarea id="alamat" placeholder="Masukkan alamat lengkap murid"></textarea>
         </div>
 
+        <div class="section-title ayah-title">B. Maklumat Ayah</div>
+
+        <div class="full">
+          <label>Nama Ayah</label>
+          <input type="text" id="namaAyah" placeholder="Masukkan nama penuh ayah" />
+        </div>
+
         <div>
-          <label>Nama Penjaga Mudah Dihubungi</label>
+          <label>No. Kad Pintar Ayah</label>
+          <input type="text" id="kadPintarAyah" placeholder="Contoh: 00-123456" />
+        </div>
+
+        <div>
+          <label>No. Telefon Ayah</label>
+          <input type="text" id="telefonAyah" placeholder="Contoh: 7XXXXXX" />
+        </div>
+
+        <div class="full">
+          <label>Pekerjaan Ayah</label>
+          <input type="text" id="pekerjaanAyah" placeholder="Masukkan pekerjaan ayah" />
+        </div>
+
+        <div class="section-title ibu-title">C. Maklumat Ibu</div>
+
+        <div class="full">
+          <label>Nama Ibu</label>
+          <input type="text" id="namaIbu" placeholder="Masukkan nama penuh ibu" />
+        </div>
+
+        <div>
+          <label>No. Kad Pintar Ibu</label>
+          <input type="text" id="kadPintarIbu" placeholder="Contoh: 00-123456" />
+        </div>
+
+        <div>
+          <label>No. Telefon Ibu</label>
+          <input type="text" id="telefonIbu" placeholder="Contoh: 7XXXXXX" />
+        </div>
+
+        <div class="full">
+          <label>Pekerjaan Ibu</label>
+          <input type="text" id="pekerjaanIbu" placeholder="Masukkan pekerjaan ibu" />
+        </div>
+
+        <div class="section-title hubungi-title">D. Penjaga yang Mudah Dihubungi</div>
+
+        <div class="full">
+          <label>Nama Penjaga yang Mudah Dihubungi</label>
           <input type="text" id="namaPenjaga" placeholder="Contoh: Puan Siti binti Ahmad" />
         </div>
 
         <div>
-          <label>No. Telefon</label>
+          <label>No. Telefon Penjaga</label>
           <input type="text" id="telefon" placeholder="Contoh: 7XXXXXX" />
         </div>
 
@@ -321,6 +452,7 @@
             <option>Nenek</option>
             <option>Abang</option>
             <option>Kakak</option>
+            <option>Saudara</option>
             <option>Lain-lain</option>
           </select>
         </div>
@@ -332,8 +464,12 @@
 
     <div class="search-box">
       <h2>Carian Murid</h2>
-      <input type="text" id="searchInput" placeholder="Taip nama, ID sekolah, tahun, Bru-HIMS, penjaga atau telefon" />
-      <button class="btn-search" id="btnSearch">Search</button>
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Taip nama murid, ID sekolah, tahun, nama ibu, nama ayah, penjaga atau nombor telefon"
+      />
+      <button class="btn-search" id="btnSearch">Cari</button>
       <button class="btn-reset" id="btnPaparSemua">Papar Semua</button>
     </div>
 
@@ -341,13 +477,15 @@
     <div id="result" class="result"></div>
 
     <div class="nota">
-      <b>Nota:</b> Versi ini menggunakan Cloud Firestore. Data tidak disimpan dalam localStorage.
-      Semua rekod akan masuk ke koleksi <b>murid_srbm</b>. Medan <b>Kelas</b> telah dibuang supaya database lebih ringkas.
+      <b>Nota:</b> Data disimpan dalam Cloud Firestore di koleksi
+      <b>murid_srbm</b>. Rekod lama tidak akan terpadam. Medan baharu akan
+      ditambah apabila rekod diedit atau rekod baharu disimpan.
     </div>
   </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
     import {
       getFirestore,
       collection,
@@ -389,30 +527,72 @@
       const jantina = el("jantina").value;
       const suratBeranak = el("suratBeranak").value.trim();
       const bruhims = el("bruhims").value.trim();
+
+      const namaAyah = el("namaAyah").value.trim();
+      const kadPintarAyah = el("kadPintarAyah").value.trim();
+      const telefonAyah = el("telefonAyah").value.trim();
+      const pekerjaanAyah = el("pekerjaanAyah").value.trim();
+
+      const namaIbu = el("namaIbu").value.trim();
+      const kadPintarIbu = el("kadPintarIbu").value.trim();
+      const telefonIbu = el("telefonIbu").value.trim();
+      const pekerjaanIbu = el("pekerjaanIbu").value.trim();
+
       const namaPenjaga = el("namaPenjaga").value.trim();
       const telefon = el("telefon").value.trim();
+      const kaitan = el("kaitan").value;
 
       return {
         nama,
         namaLower: lower(nama),
+
         idSekolah,
         idSekolahLower: lower(idSekolah),
+
         tahun,
         tahunLower: lower(tahun),
+
         jantina,
         jantinaLower: lower(jantina),
+
         tarikhLahir: el("tarikhLahir").value,
+
         suratBeranak,
         suratBeranakLower: lower(suratBeranak),
+
         bruhims,
         bruhimsLower: lower(bruhims),
+
         alamat: el("alamat").value.trim(),
         alamatLower: lower(el("alamat").value),
+
+        namaAyah,
+        namaAyahLower: lower(namaAyah),
+        kadPintarAyah,
+        kadPintarAyahLower: lower(kadPintarAyah),
+        telefonAyah,
+        telefonAyahLower: lower(telefonAyah),
+        pekerjaanAyah,
+        pekerjaanAyahLower: lower(pekerjaanAyah),
+
+        namaIbu,
+        namaIbuLower: lower(namaIbu),
+        kadPintarIbu,
+        kadPintarIbuLower: lower(kadPintarIbu),
+        telefonIbu,
+        telefonIbuLower: lower(telefonIbu),
+        pekerjaanIbu,
+        pekerjaanIbuLower: lower(pekerjaanIbu),
+
         namaPenjaga,
         namaPenjagaLower: lower(namaPenjaga),
+
         telefon,
         telefonLower: lower(telefon),
-        kaitan: el("kaitan").value,
+
+        kaitan,
+        kaitanLower: lower(kaitan),
+
         dikemaskiniPada: serverTimestamp()
       };
     }
@@ -421,7 +601,7 @@
       const murid = ambilDataBorang();
 
       if (!murid.nama || !murid.idSekolah) {
-        alert("Sila isi sekurang-kurangnya Nama Penuh dan ID Sekolah.");
+        alert("Sila isi sekurang-kurangnya Nama Penuh Murid dan ID Sekolah.");
         return;
       }
 
@@ -436,6 +616,7 @@
             ...murid,
             diciptaPada: serverTimestamp()
           });
+
           alert("Data murid berjaya disimpan ke Firebase.");
         }
 
@@ -453,6 +634,7 @@
         const snapshot = await getDocs(q);
 
         senaraiMurid = [];
+
         snapshot.forEach((docSnap) => {
           senaraiMurid.push({
             docId: docSnap.id,
@@ -465,15 +647,19 @@
         paparData(senaraiMurid);
       } catch (error) {
         console.error(error);
-        el("statusDb").textContent = "Error";
+        el("statusDb").textContent = "Ralat";
         alert("Ralat membaca data. Sila semak Firestore Rules.");
       }
     }
 
     function kemasKiniDashboard(data) {
       el("jumlahMurid").textContent = data.length;
-      el("jumlahLelaki").textContent = data.filter(m => m.jantina === "Lelaki").length;
-      el("jumlahPerempuan").textContent = data.filter(m => m.jantina === "Perempuan").length;
+      el("jumlahLelaki").textContent = data.filter(
+        (murid) => murid.jantina === "Lelaki"
+      ).length;
+      el("jumlahPerempuan").textContent = data.filter(
+        (murid) => murid.jantina === "Perempuan"
+      ).length;
     }
 
     function cariMurid() {
@@ -484,15 +670,30 @@
         return;
       }
 
-      const hasil = senaraiMurid.filter(murid =>
-        (murid.namaLower || "").includes(keyword) ||
-        (murid.idSekolahLower || "").includes(keyword) ||
-        (murid.tahunLower || "").includes(keyword) ||
-        (murid.jantinaLower || "").includes(keyword) ||
-        (murid.bruhimsLower || "").includes(keyword) ||
-        (murid.suratBeranakLower || "").includes(keyword) ||
-        (murid.namaPenjagaLower || "").includes(keyword) ||
-        (murid.telefonLower || "").includes(keyword)
+      const hasil = senaraiMurid.filter((murid) =>
+        [
+          murid.namaLower,
+          murid.idSekolahLower,
+          murid.tahunLower,
+          murid.jantinaLower,
+          murid.bruhimsLower,
+          murid.suratBeranakLower,
+          murid.alamatLower,
+
+          murid.namaAyahLower,
+          murid.kadPintarAyahLower,
+          murid.telefonAyahLower,
+          murid.pekerjaanAyahLower,
+
+          murid.namaIbuLower,
+          murid.kadPintarIbuLower,
+          murid.telefonIbuLower,
+          murid.pekerjaanIbuLower,
+
+          murid.namaPenjagaLower,
+          murid.telefonLower,
+          murid.kaitanLower
+        ].some((nilai) => (nilai || "").includes(keyword))
       );
 
       paparData(hasil);
@@ -500,7 +701,10 @@
 
     function paparData(data) {
       const result = el("result");
-      el("jumlahPaparanText").innerHTML = `<b>Rekod dipaparkan:</b> ${data.length}`;
+
+      el("jumlahPaparanText").innerHTML =
+        `<b>Rekod dipaparkan:</b> ${data.length}`;
+
       result.innerHTML = "";
 
       if (data.length === 0) {
@@ -514,6 +718,7 @@
 
         kad.innerHTML = `
           <h3>${murid.nama || "-"}</h3>
+
           <div class="info"><b>ID Sekolah</b><span>${murid.idSekolah || "-"}</span></div>
           <div class="info"><b>Tahun</b><span>${murid.tahun || "-"}</span></div>
           <div class="info"><b>Jantina</b><span>${murid.jantina || "-"}</span></div>
@@ -521,9 +726,23 @@
           <div class="info"><b>No. Surat Beranak</b><span>${murid.suratBeranak || "-"}</span></div>
           <div class="info"><b>No. Bru-HIMS</b><span>${murid.bruhims || "-"}</span></div>
           <div class="info"><b>Alamat Tempat Tinggal</b><span>${murid.alamat || "-"}</span></div>
+
+          <div class="card-section ayah">Maklumat Ayah</div>
+          <div class="info"><b>Nama Ayah</b><span>${murid.namaAyah || "-"}</span></div>
+          <div class="info"><b>No. Kad Pintar Ayah</b><span>${murid.kadPintarAyah || "-"}</span></div>
+          <div class="info"><b>No. Telefon Ayah</b><span>${murid.telefonAyah || "-"}</span></div>
+          <div class="info"><b>Pekerjaan Ayah</b><span>${murid.pekerjaanAyah || "-"}</span></div>
+
+          <div class="card-section ibu">Maklumat Ibu</div>
+          <div class="info"><b>Nama Ibu</b><span>${murid.namaIbu || "-"}</span></div>
+          <div class="info"><b>No. Kad Pintar Ibu</b><span>${murid.kadPintarIbu || "-"}</span></div>
+          <div class="info"><b>No. Telefon Ibu</b><span>${murid.telefonIbu || "-"}</span></div>
+          <div class="info"><b>Pekerjaan Ibu</b><span>${murid.pekerjaanIbu || "-"}</span></div>
+
+          <div class="card-section hubungi">Penjaga yang Mudah Dihubungi</div>
           <div class="info"><b>Nama Penjaga</b><span>${murid.namaPenjaga || "-"}</span></div>
-          <div class="info"><b>No. Telefon</b><span>${murid.telefon || "-"}</span></div>
-          <div class="info"><b>Kaitan</b><span>${murid.kaitan || "-"}</span></div>
+          <div class="info"><b>No. Telefon Penjaga</b><span>${murid.telefon || "-"}</span></div>
+          <div class="info"><b>Kaitan dengan Murid</b><span>${murid.kaitan || "-"}</span></div>
 
           <button class="btn-edit">Edit</button>
           <button class="btn-padam">Padam</button>
@@ -532,6 +751,7 @@
 
         kad.querySelector(".btn-edit").addEventListener("click", () => editData(murid));
         kad.querySelector(".btn-padam").addEventListener("click", () => padamData(murid.docId));
+
         kad.querySelector(".btn-cetak").addEventListener("click", () => {
           result.innerHTML = "";
           result.appendChild(kad);
@@ -544,7 +764,8 @@
     }
 
     function editData(murid) {
-      el("docId").value = murid.docId;
+      el("docId").value = murid.docId || "";
+
       el("nama").value = murid.nama || "";
       el("idSekolah").value = murid.idSekolah || "";
       el("tahun").value = murid.tahun || "";
@@ -553,6 +774,17 @@
       el("suratBeranak").value = murid.suratBeranak || "";
       el("bruhims").value = murid.bruhims || "";
       el("alamat").value = murid.alamat || "";
+
+      el("namaAyah").value = murid.namaAyah || "";
+      el("kadPintarAyah").value = murid.kadPintarAyah || "";
+      el("telefonAyah").value = murid.telefonAyah || "";
+      el("pekerjaanAyah").value = murid.pekerjaanAyah || "";
+
+      el("namaIbu").value = murid.namaIbu || "";
+      el("kadPintarIbu").value = murid.kadPintarIbu || "";
+      el("telefonIbu").value = murid.telefonIbu || "";
+      el("pekerjaanIbu").value = murid.pekerjaanIbu || "";
+
       el("namaPenjaga").value = murid.namaPenjaga || "";
       el("telefon").value = murid.telefon || "";
       el("kaitan").value = murid.kaitan || "";
@@ -561,7 +793,9 @@
     }
 
     async function padamData(docId) {
-      if (!confirm("Adakah Cikgu pasti mahu memadam data murid ini?")) return;
+      if (!confirm("Adakah Cikgu pasti mahu memadam data murid ini?")) {
+        return;
+      }
 
       try {
         await deleteDoc(doc(db, "murid_srbm", docId));
@@ -574,17 +808,33 @@
     }
 
     function resetBorang() {
-      el("docId").value = "";
-      el("nama").value = "";
-      el("idSekolah").value = "";
+      [
+        "docId",
+        "nama",
+        "idSekolah",
+        "tarikhLahir",
+        "suratBeranak",
+        "bruhims",
+        "alamat",
+
+        "namaAyah",
+        "kadPintarAyah",
+        "telefonAyah",
+        "pekerjaanAyah",
+
+        "namaIbu",
+        "kadPintarIbu",
+        "telefonIbu",
+        "pekerjaanIbu",
+
+        "namaPenjaga",
+        "telefon"
+      ].forEach((id) => {
+        el(id).value = "";
+      });
+
       el("tahun").value = "";
       el("jantina").value = "";
-      el("tarikhLahir").value = "";
-      el("suratBeranak").value = "";
-      el("bruhims").value = "";
-      el("alamat").value = "";
-      el("namaPenjaga").value = "";
-      el("telefon").value = "";
       el("kaitan").value = "";
     }
 
@@ -593,12 +843,13 @@
     el("btnSearch").addEventListener("click", cariMurid);
     el("btnPaparSemua").addEventListener("click", () => paparData(senaraiMurid));
 
-    el("searchInput").addEventListener("keyup", (e) => {
-      if (e.key === "Enter") cariMurid();
+    el("searchInput").addEventListener("keyup", (event) => {
+      if (event.key === "Enter") {
+        cariMurid();
+      }
     });
 
     muatData();
   </script>
 </body>
 </html>
-
