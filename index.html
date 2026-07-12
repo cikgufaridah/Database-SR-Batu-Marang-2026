@@ -1,920 +1,619 @@
 <!DOCTYPE html>
 <html lang="ms">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
 
-  <title>Database Murid SRBM - Firestore</title>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-  <link rel="icon" type="image/png" href="icon.png">
-  <link rel="apple-touch-icon" href="icon.png">
-  <link rel="manifest" href="manifest.json">
+  <meta
+    name="description"
+    content="Sistem Maklumat Murid Sekolah Rendah Batu Marang"
+  >
 
-  <style>
-    :root {
-      --pink: #f7b6c8;
-      --pink-dark: #b75b79;
-      --orange: #ffd3a5;
-      --orange-dark: #c97b32;
-      --green: #cdeccf;
-      --green-dark: #4f8f62;
-      --cream: #fffaf4;
-      --text: #3d3d3d;
-      --border: #eadfd7;
-    }
+  <title>SMM SRBM</title>
 
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #fff1f5, #fff7e8, #eef9ef);
-      margin: 0;
-      padding: 20px;
-      color: var(--text);
-    }
-
-    .container {
-      max-width: 1180px;
-      margin: auto;
-      background: rgba(255,255,255,0.96);
-      padding: 26px;
-      border-radius: 22px;
-      box-shadow: 0 10px 30px rgba(91, 78, 72, 0.14);
-      border-top: 10px solid var(--pink);
-    }
-
-    h1 {
-      text-align: center;
-      margin: 0 0 8px;
-      color: #8f4f61;
-      letter-spacing: 1px;
-      line-height: 1.25;
-    }
-
-    .subtajuk {
-      text-align: center;
-      margin-bottom: 25px;
-      color: #5a4b45;
-      background: linear-gradient(90deg, var(--pink), var(--orange), var(--green));
-      padding: 11px;
-      border-radius: 25px;
-      font-weight: bold;
-    }
-
-    h2 {
-      color: #8f4f61;
-      border-left: 7px solid var(--orange);
-      padding-left: 10px;
-      margin-top: 0;
-    }
-
-    .section-title {
-      grid-column: 1 / -1;
-      margin-top: 10px;
-      padding: 11px 14px;
-      border-radius: 12px;
-      font-size: 17px;
-      font-weight: bold;
-      color: #5a4b45;
-    }
-
-    .murid-title {
-      background: #fff0f4;
-      border-left: 6px solid var(--pink);
-    }
-
-    .ayah-title {
-      background: #fff3e4;
-      border-left: 6px solid var(--orange);
-    }
-
-    .ibu-title {
-      background: #eef9ef;
-      border-left: 6px solid var(--green);
-    }
-
-    .hubungi-title {
-      background: linear-gradient(90deg, #fff0f4, #fff3e4, #eef9ef);
-      border-left: 6px solid #d8a0a8;
-    }
-
-    label {
-      font-weight: bold;
-      display: block;
-      margin-top: 12px;
-    }
-
-    input, textarea, select {
-      width: 100%;
-      padding: 11px;
-      margin-top: 5px;
-      border: 2px solid var(--border);
-      border-radius: 10px;
-      font-size: 15px;
-      background: #fffefe;
-    }
-
-    input:focus, textarea:focus, select:focus {
-      outline: none;
-      border-color: var(--pink-dark);
-      box-shadow: 0 0 0 3px rgba(247,182,200,0.25);
-    }
-
-    textarea {
-      min-height: 78px;
-      resize: vertical;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-    }
-
-    .full {
-      grid-column: 1 / -1;
-    }
-
-    button {
-      border: none;
-      padding: 11px 18px;
-      margin-top: 15px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 15px;
-      transition: transform 0.15s ease, opacity 0.15s ease;
-    }
-
-    button:hover {
-      transform: translateY(-1px);
-      opacity: 0.95;
-    }
-
-    .btn-simpan {
-      background: linear-gradient(90deg, #7bbf8d, #9fd3aa);
-      color: #173b23;
-    }
-
-    .btn-reset {
-      background: linear-gradient(90deg, #e8c7b1, #d9c1b0);
-      color: #4b3b32;
-    }
-
-    .btn-search {
-      background: linear-gradient(90deg, #ef9fb6, #f6bdcc);
-      color: #542335;
-    }
-
-    .btn-edit {
-      background: linear-gradient(90deg, #ffc98b, #ffdda9);
-      color: #5c3510;
-      margin-right: 6px;
-    }
-
-    .btn-padam {
-      background: linear-gradient(90deg, #d97c8f, #ec9bab);
-      color: white;
-    }
-
-    .btn-cetak {
-      background: linear-gradient(90deg, #9fcfa9, #c8e8cc);
-      color: #244b2d;
-    }
-
-    .search-box {
-      background: linear-gradient(135deg, #fff0f4, #fff6e8, #eff9f0);
-      padding: 18px;
-      border-radius: 14px;
-      margin: 25px 0;
-      border-left: 8px solid var(--pink);
-    }
-
-    .dashboard {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 15px;
-      margin-bottom: 22px;
-    }
-
-    .dash-card {
-      cursor: pointer;
-      padding: 18px;
-      border-radius: 18px;
-      text-align: center;
-      font-weight: bold;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      color: #4a3b37;
-    }
-
-    .dash-card span {
-      display: block;
-      font-size: 34px;
-      margin-top: 5px;
-    }
-
-    .jumlah { background: linear-gradient(135deg, #f9c5d3, #ffe3ea); }
-    .lelaki { background: linear-gradient(135deg, #ffd2a1, #ffe8c8); }
-    .perempuan { background: linear-gradient(135deg, #f5b8c8, #ffdce5); }
-    .harilahir { background: linear-gradient(135deg, #ffe7a8, #fff4cf); }
-    .tidaklengkap { background: linear-gradient(135deg, #c6e8cb, #e2f4e5); }
-
-    .result {
-      margin-top: 20px;
-    }
-
-    .card {
-      border: 2px solid #eadfd7;
-      border-radius: 16px;
-      padding: 20px;
-      background: linear-gradient(135deg, #ffffff, #fff9f5, #f7fcf7);
-      margin-bottom: 16px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    }
-
-    .card h3 {
-      margin-top: 0;
-      color: #8f4f61;
-      border-bottom: 2px solid #f3d8df;
-      padding-bottom: 8px;
-    }
-
-    .card-section {
-      margin-top: 16px;
-      padding: 8px 10px;
-      border-radius: 10px;
-      font-weight: bold;
-    }
-
-    .card-section.ayah { background: #fff2df; }
-    .card-section.ibu { background: #edf8ee; }
-    .card-section.hubungi { background: #fff0f4; }
-
-    .info {
-      display: grid;
-      grid-template-columns: 250px 1fr;
-      gap: 8px;
-      margin: 7px 0;
-      align-items: start;
-    }
-
-    .info b {
-      color: #4a403c;
-    }
-
-    .nota {
-      background: #fff6dc;
-      padding: 12px;
-      border-radius: 10px;
-      margin-top: 15px;
-      font-size: 14px;
-      border-left: 6px solid var(--orange);
-    }
-
-    @media (max-width: 850px) {
-      .grid, .dashboard {
-        grid-template-columns: 1fr;
-      }
-
-      .info {
-        grid-template-columns: 1fr;
-      }
-
-      h1 {
-        font-size: 29px;
-      }
-    }
-
-    @media print {
-      body {
-        background: white;
-      }
-
-      .form-section,
-      .search-box,
-      .btn-edit,
-      .btn-padam,
-      .btn-cetak,
-      .nota,
-      .dashboard {
-        display: none;
-      }
-
-      .container {
-        box-shadow: none;
-        border: none;
-      }
-
-      .card {
-        page-break-inside: avoid;
-        box-shadow: none;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <div class="container">
-    <h1>DATABASE MURID<br>SEKOLAH RENDAH BATU MARANG</h1>
-    <p class="subtajuk">Guru Besar: Cikgu Rohaya binti Yusof<br>Sesi Persekolahan 2026</p>
 
-    <div class="dashboard">
-      <div class="dash-card jumlah">Jumlah Murid <span id="jumlahMurid">0</span></div>
-      <div class="dash-card lelaki">Lelaki <span id="jumlahLelaki">0</span></div>
-      <div class="dash-card perempuan">Perempuan <span id="jumlahPerempuan">0</span></div>
-      <div class="dash-card harilahir">Hari Lahir Bulan Ini <span id="jumlahHariLahir">0</span></div>
-      <div class="dash-card tidaklengkap">Maklumat Tidak Lengkap <span id="jumlahTidakLengkap">0</span></div>
-    </div>
+  <!-- Bahagian atas -->
+  <header class="top-header">
+    <div class="header-content">
 
-    <div class="form-section">
-      <h2>Borang Maklumat Murid</h2>
-      <input type="hidden" id="docId" />
-
-      <div class="grid">
-        <div class="section-title murid-title">A. Maklumat Murid</div>
-
-        <div class="full">
-          <label>Nama Penuh Murid</label>
-          <input type="text" id="nama" placeholder="Contoh: Muhammad Danish bin Ahmad" />
-        </div>
+      <div class="logo-box">
+        <div class="school-logo">SRBM</div>
 
         <div>
-          <label>ID Sekolah</label>
-          <input type="text" id="idSekolah" placeholder="Contoh: 1090" />
-        </div>
-
-        <div>
-          <label>Tahun</label>
-          <select id="tahun">
-            <option value="">-- Pilih Tahun --</option>
-            <option>Prasekolah</option>
-            <option>Tahun 1</option>
-            <option>Tahun 2</option>
-            <option>Tahun 3</option>
-            <option>Tahun 4</option>
-            <option>Tahun 5</option>
-            <option>Tahun 6</option>
-          </select>
-        </div>
-
-        <div>
-          <label>Jantina</label>
-          <select id="jantina">
-            <option value="">-- Pilih Jantina --</option>
-            <option>Lelaki</option>
-            <option>Perempuan</option>
-          </select>
-        </div>
-
-        <div>
-          <label>Tarikh Lahir</label>
-          <input type="date" id="tarikhLahir" />
-        </div>
-
-        <div>
-          <label>No. Surat Beranak</label>
-          <input type="text" id="suratBeranak" placeholder="Contoh: 0174834-01" />
-        </div>
-
-        <div>
-          <label>No. Bru-HIMS</label>
-          <input type="text" id="bruhims" placeholder="Contoh: BN44002343" />
-        </div>
-
-        <div class="full">
-          <label>Alamat Tempat Tinggal</label>
-          <textarea id="alamat" placeholder="Masukkan alamat lengkap murid"></textarea>
-        </div>
-
-        <div class="section-title ayah-title">B. Maklumat Ayah</div>
-
-        <div class="full">
-          <label>Nama Ayah</label>
-          <input type="text" id="namaAyah" placeholder="Masukkan nama penuh ayah" />
-        </div>
-
-        <div>
-          <label>No. Kad Pintar Ayah</label>
-          <input type="text" id="kadPintarAyah" placeholder="Contoh: 00-123456" />
-        </div>
-
-        <div>
-          <label>No. Telefon Ayah</label>
-          <input type="text" id="telefonAyah" placeholder="Contoh: 7XXXXXX" />
-        </div>
-
-        <div class="full">
-          <label>Pekerjaan Ayah</label>
-          <input type="text" id="pekerjaanAyah" placeholder="Masukkan pekerjaan ayah" />
-        </div>
-
-        <div class="section-title ibu-title">C. Maklumat Ibu</div>
-
-        <div class="full">
-          <label>Nama Ibu</label>
-          <input type="text" id="namaIbu" placeholder="Masukkan nama penuh ibu" />
-        </div>
-
-        <div>
-          <label>No. Kad Pintar Ibu</label>
-          <input type="text" id="kadPintarIbu" placeholder="Contoh: 00-123456" />
-        </div>
-
-        <div>
-          <label>No. Telefon Ibu</label>
-          <input type="text" id="telefonIbu" placeholder="Contoh: 7XXXXXX" />
-        </div>
-
-        <div class="full">
-          <label>Pekerjaan Ibu</label>
-          <input type="text" id="pekerjaanIbu" placeholder="Masukkan pekerjaan ibu" />
-        </div>
-
-        <div class="section-title hubungi-title">D. Penjaga yang Mudah Dihubungi</div>
-
-        <div class="full">
-          <label>Nama Penjaga yang Mudah Dihubungi</label>
-          <input type="text" id="namaPenjaga" placeholder="Contoh: Puan Siti binti Ahmad" />
-        </div>
-
-        <div>
-          <label>No. Telefon Penjaga</label>
-          <input type="text" id="telefon" placeholder="Contoh: 7XXXXXX" />
-        </div>
-
-        <div>
-          <label>Kaitan dengan Murid</label>
-          <select id="kaitan">
-            <option value="">-- Pilih --</option>
-            <option>Ibu</option>
-            <option>Bapa</option>
-            <option>Penjaga</option>
-            <option>Datuk</option>
-            <option>Nenek</option>
-            <option>Abang</option>
-            <option>Kakak</option>
-            <option>Saudara</option>
-            <option>Lain-lain</option>
-          </select>
+          <h1>SMM SRBM</h1>
+          <p>Sistem Maklumat Murid</p>
         </div>
       </div>
 
-      <button class="btn-simpan" id="btnSimpan">Simpan ke Firebase</button>
-      <button class="btn-reset" id="btnReset">Kosongkan Borang</button>
+      <button
+        type="button"
+        class="btn-primary"
+        id="btnBukaBorang"
+      >
+        + Tambah Murid
+      </button>
+
+    </div>
+  </header>
+
+
+  <!-- Menu navigasi -->
+  <nav class="main-nav">
+    <button
+      type="button"
+      class="nav-button active"
+      data-page="dashboard"
+    >
+      Dashboard
+    </button>
+
+    <button
+      type="button"
+      class="nav-button"
+      data-page="murid"
+    >
+      Senarai Murid
+    </button>
+  </nav>
+
+
+  <main class="main-container">
+
+    <!-- =========================
+         HALAMAN DASHBOARD
+    ========================== -->
+    <section
+      class="page-section active"
+      id="dashboardPage"
+    >
+
+      <div class="page-heading">
+        <div>
+          <h2>Dashboard</h2>
+          <p>Ringkasan maklumat murid SRBM</p>
+        </div>
+      </div>
+
+
+      <!-- Kad statistik -->
+      <div class="statistics-grid">
+
+        <article class="stat-card">
+          <div class="stat-icon">👨‍🎓</div>
+
+          <div>
+            <p>Jumlah Murid</p>
+            <h3 id="jumlahMurid">0</h3>
+          </div>
+        </article>
+
+
+        <article class="stat-card">
+          <div class="stat-icon">👦</div>
+
+          <div>
+            <p>Murid Lelaki</p>
+            <h3 id="jumlahLelaki">0</h3>
+          </div>
+        </article>
+
+
+        <article class="stat-card">
+          <div class="stat-icon">👧</div>
+
+          <div>
+            <p>Murid Perempuan</p>
+            <h3 id="jumlahPerempuan">0</h3>
+          </div>
+        </article>
+
+
+        <article class="stat-card">
+          <div class="stat-icon">🏫</div>
+
+          <div>
+            <p>Jumlah Kelas</p>
+            <h3 id="jumlahKelas">0</h3>
+          </div>
+        </article>
+
+      </div>
+
+
+      <!-- Statistik mengikut tahun -->
+      <section class="content-card">
+
+        <div class="card-heading">
+          <div>
+            <h3>Jumlah Murid Mengikut Tahun</h3>
+            <p>Bilangan murid Tahun 1 hingga Tahun 6</p>
+          </div>
+        </div>
+
+        <div class="year-statistics">
+
+          <div class="year-box">
+            <span>Tahun 1</span>
+            <strong id="jumlahTahun1">0</strong>
+          </div>
+
+          <div class="year-box">
+            <span>Tahun 2</span>
+            <strong id="jumlahTahun2">0</strong>
+          </div>
+
+          <div class="year-box">
+            <span>Tahun 3</span>
+            <strong id="jumlahTahun3">0</strong>
+          </div>
+
+          <div class="year-box">
+            <span>Tahun 4</span>
+            <strong id="jumlahTahun4">0</strong>
+          </div>
+
+          <div class="year-box">
+            <span>Tahun 5</span>
+            <strong id="jumlahTahun5">0</strong>
+          </div>
+
+          <div class="year-box">
+            <span>Tahun 6</span>
+            <strong id="jumlahTahun6">0</strong>
+          </div>
+
+        </div>
+
+      </section>
+
+    </section>
+
+
+    <!-- =========================
+         HALAMAN SENARAI MURID
+    ========================== -->
+    <section
+      class="page-section"
+      id="muridPage"
+    >
+
+      <div class="page-heading">
+
+        <div>
+          <h2>Senarai Murid</h2>
+          <p>Tambah, cari dan kemas kini maklumat murid</p>
+        </div>
+
+        <button
+          type="button"
+          class="btn-primary"
+          id="btnTambahMurid"
+        >
+          + Tambah Murid
+        </button>
+
+      </div>
+
+
+      <!-- Carian dan tapisan -->
+      <section class="content-card">
+
+        <div class="filter-grid">
+
+          <div class="form-group">
+            <label for="carianMurid">Cari Murid</label>
+
+            <input
+              type="search"
+              id="carianMurid"
+              placeholder="Masukkan nama atau nombor daftar"
+            >
+          </div>
+
+
+          <div class="form-group">
+            <label for="tapisTahun">Tahun</label>
+
+            <select id="tapisTahun">
+              <option value="">Semua Tahun</option>
+              <option value="1">Tahun 1</option>
+              <option value="2">Tahun 2</option>
+              <option value="3">Tahun 3</option>
+              <option value="4">Tahun 4</option>
+              <option value="5">Tahun 5</option>
+              <option value="6">Tahun 6</option>
+            </select>
+          </div>
+
+
+          <div class="form-group">
+            <label for="tapisJantina">Jantina</label>
+
+            <select id="tapisJantina">
+              <option value="">Semua Jantina</option>
+              <option value="Lelaki">Lelaki</option>
+              <option value="Perempuan">Perempuan</option>
+            </select>
+          </div>
+
+
+          <div class="form-group filter-button-box">
+            <button
+              type="button"
+              class="btn-secondary"
+              id="btnResetCarian"
+            >
+              Set Semula
+            </button>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- Jadual murid -->
+      <section class="content-card">
+
+        <div class="card-heading">
+
+          <div>
+            <h3>Rekod Murid</h3>
+            <p>
+              Jumlah rekod:
+              <strong id="jumlahRekodDipaparkan">0</strong>
+            </p>
+          </div>
+
+        </div>
+
+
+        <div
+          class="loading-message"
+          id="loadingMessage"
+        >
+          Memuatkan data murid...
+        </div>
+
+
+        <div
+          class="empty-message hidden"
+          id="emptyMessage"
+        >
+          <div class="empty-icon">📋</div>
+          <h3>Belum ada rekod murid</h3>
+          <p>Tekan butang “Tambah Murid” untuk memasukkan rekod.</p>
+        </div>
+
+
+        <div class="table-wrapper">
+
+          <table id="jadualMurid">
+
+            <thead>
+              <tr>
+                <th>Bil.</th>
+                <th>No. Daftar</th>
+                <th>Nama Murid</th>
+                <th>Jantina</th>
+                <th>Tahun</th>
+                <th>Kelas</th>
+                <th>Tindakan</th>
+              </tr>
+            </thead>
+
+            <tbody id="senaraiMurid">
+              <!-- Data murid dipaparkan melalui JavaScript -->
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </section>
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================
+       MODAL BORANG MURID
+  ========================== -->
+  <div
+    class="modal hidden"
+    id="modalMurid"
+    aria-hidden="true"
+  >
+
+    <div class="modal-overlay" id="modalOverlay"></div>
+
+    <div
+      class="modal-content"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="tajukBorang"
+    >
+
+      <div class="modal-header">
+
+        <div>
+          <h2 id="tajukBorang">Tambah Murid</h2>
+          <p>Lengkapkan maklumat murid di bawah.</p>
+        </div>
+
+        <button
+          type="button"
+          class="btn-close"
+          id="btnTutupModal"
+          aria-label="Tutup borang"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <form id="borangMurid">
+
+        <!-- Menyimpan ID dokumen ketika edit -->
+        <input type="hidden" id="documentId">
+
+
+        <div class="form-section">
+
+          <h3>Maklumat Murid</h3>
+
+          <div class="form-grid">
+
+            <div class="form-group">
+              <label for="noDaftar">
+                Nombor Daftar
+                <span class="required">*</span>
+              </label>
+
+              <input
+                type="text"
+                id="noDaftar"
+                placeholder="Contoh: SRBM0001"
+                required
+              >
+            </div>
+
+
+            <div class="form-group full-width">
+              <label for="namaMurid">
+                Nama Penuh Murid
+                <span class="required">*</span>
+              </label>
+
+              <input
+                type="text"
+                id="namaMurid"
+                placeholder="Masukkan nama penuh murid"
+                required
+              >
+            </div>
+
+
+            <div class="form-group">
+              <label for="jantina">
+                Jantina
+                <span class="required">*</span>
+              </label>
+
+              <select id="jantina" required>
+                <option value="">Pilih jantina</option>
+                <option value="Lelaki">Lelaki</option>
+                <option value="Perempuan">Perempuan</option>
+              </select>
+            </div>
+
+
+            <div class="form-group">
+              <label for="tarikhLahir">Tarikh Lahir</label>
+
+              <input
+                type="date"
+                id="tarikhLahir"
+              >
+            </div>
+
+
+            <div class="form-group">
+              <label for="tahun">
+                Tahun
+                <span class="required">*</span>
+              </label>
+
+              <select id="tahun" required>
+                <option value="">Pilih tahun</option>
+                <option value="1">Tahun 1</option>
+                <option value="2">Tahun 2</option>
+                <option value="3">Tahun 3</option>
+                <option value="4">Tahun 4</option>
+                <option value="5">Tahun 5</option>
+                <option value="6">Tahun 6</option>
+              </select>
+            </div>
+
+
+            <div class="form-group">
+              <label for="kelas">
+                Kelas
+                <span class="required">*</span>
+              </label>
+
+              <input
+                type="text"
+                id="kelas"
+                placeholder="Contoh: 3A"
+                required
+              >
+            </div>
+
+
+            <div class="form-group">
+              <label for="noKadPengenalan">
+                Nombor Kad Pengenalan
+              </label>
+
+              <input
+                type="text"
+                id="noKadPengenalan"
+                placeholder="Contoh: 01-123456"
+              >
+            </div>
+
+
+            <div class="form-group">
+              <label for="bangsa">Bangsa</label>
+
+              <input
+                type="text"
+                id="bangsa"
+                placeholder="Masukkan bangsa"
+              >
+            </div>
+
+
+            <div class="form-group">
+              <label for="agama">Agama</label>
+
+              <input
+                type="text"
+                id="agama"
+                placeholder="Masukkan agama"
+              >
+            </div>
+
+
+            <div class="form-group full-width">
+              <label for="alamat">Alamat Rumah</label>
+
+              <textarea
+                id="alamat"
+                rows="3"
+                placeholder="Masukkan alamat tempat tinggal murid"
+              ></textarea>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="form-section">
+
+          <h3>Maklumat Penjaga</h3>
+
+          <div class="form-grid">
+
+            <div class="form-group full-width">
+              <label for="namaPenjaga">Nama Penjaga</label>
+
+              <input
+                type="text"
+                id="namaPenjaga"
+                placeholder="Masukkan nama penuh penjaga"
+              >
+            </div>
+
+
+            <div class="form-group">
+              <label for="hubunganPenjaga">
+                Hubungan dengan Murid
+              </label>
+
+              <select id="hubunganPenjaga">
+                <option value="">Pilih hubungan</option>
+                <option value="Bapa">Bapa</option>
+                <option value="Ibu">Ibu</option>
+                <option value="Datuk">Datuk</option>
+                <option value="Nenek">Nenek</option>
+                <option value="Abang">Abang</option>
+                <option value="Kakak">Kakak</option>
+                <option value="Penjaga">Penjaga</option>
+                <option value="Lain-lain">Lain-lain</option>
+              </select>
+            </div>
+
+
+            <div class="form-group">
+              <label for="telefonPenjaga">
+                Nombor Telefon Penjaga
+              </label>
+
+              <input
+                type="tel"
+                id="telefonPenjaga"
+                placeholder="Contoh: 8123456"
+              >
+            </div>
+
+
+            <div class="form-group full-width">
+              <label for="catatan">Catatan</label>
+
+              <textarea
+                id="catatan"
+                rows="3"
+                placeholder="Masukkan catatan tambahan jika ada"
+              ></textarea>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="form-actions">
+
+          <button
+            type="button"
+            class="btn-secondary"
+            id="btnBatal"
+          >
+            Batal
+          </button>
+
+          <button
+            type="submit"
+            class="btn-primary"
+            id="btnSimpan"
+          >
+            Simpan Maklumat
+          </button>
+
+        </div>
+
+      </form>
+
     </div>
 
-    <div class="search-box">
-      <h2>Carian Murid</h2>
-      <input
-        type="text"
-        id="searchInput"
-        placeholder="Taip nama murid, ID sekolah, tahun, nama ibu, nama ayah, penjaga atau nombor telefon"
-      />
-      <button class="btn-search" id="btnSearch">Cari</button>
-      <button class="btn-reset" id="btnPaparSemua">Papar Semua</button>
-    </div>
-
-    <div id="jumlahPaparanText"></div>
-    <div id="result" class="result"></div>
-
-    <div class="nota">
-      <b>Nota:</b> Data disimpan dalam Cloud Firestore di koleksi
-      <b>murid_srbm</b>. Rekod lama tidak akan terpadam. Medan baharu akan
-      ditambah apabila rekod diedit atau rekod baharu disimpan.
-    </div>
   </div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-    import {
-      getFirestore,
-      collection,
-      addDoc,
-      getDocs,
-      updateDoc,
-      deleteDoc,
-      doc,
-      serverTimestamp,
-      query,
-      orderBy
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  <!-- Notifikasi -->
+  <div
+    class="notification hidden"
+    id="notification"
+    role="alert"
+  >
+    <span id="notificationMessage"></span>
+  </div>
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyCgRm2v_BD3JuPdHnYsoYyxu_HKQi4SAc8",
-      authDomain: "database-bacaan-murd-srbm.firebaseapp.com",
-      projectId: "database-bacaan-murd-srbm",
-      storageBucket: "database-bacaan-murd-srbm.firebasestorage.app",
-      messagingSenderId: "320334477436",
-      appId: "1:320334477436:web:b5a8d5041af8dfb57631f9"
-    };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const koleksiMurid = collection(db, "murid_srbm");
+  <!-- JavaScript utama -->
+  <script type="module" src="app.js"></script>
 
-    let senaraiMurid = [];
-
-    const el = (id) => document.getElementById(id);
-
-    function lower(value) {
-      return (value || "").trim().toLowerCase();
-    }
-
-    function ambilDataBorang() {
-      const nama = el("nama").value.trim();
-      const idSekolah = el("idSekolah").value.trim();
-      const tahun = el("tahun").value;
-      const jantina = el("jantina").value;
-      const suratBeranak = el("suratBeranak").value.trim();
-      const bruhims = el("bruhims").value.trim();
-
-      const namaAyah = el("namaAyah").value.trim();
-      const kadPintarAyah = el("kadPintarAyah").value.trim();
-      const telefonAyah = el("telefonAyah").value.trim();
-      const pekerjaanAyah = el("pekerjaanAyah").value.trim();
-
-      const namaIbu = el("namaIbu").value.trim();
-      const kadPintarIbu = el("kadPintarIbu").value.trim();
-      const telefonIbu = el("telefonIbu").value.trim();
-      const pekerjaanIbu = el("pekerjaanIbu").value.trim();
-
-      const namaPenjaga = el("namaPenjaga").value.trim();
-      const telefon = el("telefon").value.trim();
-      const kaitan = el("kaitan").value;
-
-      return {
-        nama,
-        namaLower: lower(nama),
-
-        idSekolah,
-        idSekolahLower: lower(idSekolah),
-
-        tahun,
-        tahunLower: lower(tahun),
-
-        jantina,
-        jantinaLower: lower(jantina),
-
-        tarikhLahir: el("tarikhLahir").value,
-
-        suratBeranak,
-        suratBeranakLower: lower(suratBeranak),
-
-        bruhims,
-        bruhimsLower: lower(bruhims),
-
-        alamat: el("alamat").value.trim(),
-        alamatLower: lower(el("alamat").value),
-
-        namaAyah,
-        namaAyahLower: lower(namaAyah),
-        kadPintarAyah,
-        kadPintarAyahLower: lower(kadPintarAyah),
-        telefonAyah,
-        telefonAyahLower: lower(telefonAyah),
-        pekerjaanAyah,
-        pekerjaanAyahLower: lower(pekerjaanAyah),
-
-        namaIbu,
-        namaIbuLower: lower(namaIbu),
-        kadPintarIbu,
-        kadPintarIbuLower: lower(kadPintarIbu),
-        telefonIbu,
-        telefonIbuLower: lower(telefonIbu),
-        pekerjaanIbu,
-        pekerjaanIbuLower: lower(pekerjaanIbu),
-
-        namaPenjaga,
-        namaPenjagaLower: lower(namaPenjaga),
-
-        telefon,
-        telefonLower: lower(telefon),
-
-        kaitan,
-        kaitanLower: lower(kaitan),
-
-        dikemaskiniPada: serverTimestamp()
-      };
-    }
-
-    async function simpanData() {
-      const murid = ambilDataBorang();
-
-      if (!murid.nama || !murid.idSekolah) {
-        alert("Sila isi sekurang-kurangnya Nama Penuh Murid dan ID Sekolah.");
-        return;
-      }
-
-      const docId = el("docId").value;
-
-      try {
-        if (docId) {
-          await updateDoc(doc(db, "murid_srbm", docId), murid);
-          alert("Data murid berjaya dikemas kini di Firebase.");
-        } else {
-          await addDoc(koleksiMurid, {
-            ...murid,
-            diciptaPada: serverTimestamp()
-          });
-
-          alert("Data murid berjaya disimpan ke Firebase.");
-        }
-
-        resetBorang();
-        await muatData();
-      } catch (error) {
-        console.error(error);
-        alert("Ralat menyimpan data. Sila semak sambungan internet atau Firestore Rules.");
-      }
-    }
-
-    async function muatData() {
-      try {
-        const q = query(koleksiMurid, orderBy("namaLower"));
-        const snapshot = await getDocs(q);
-
-        senaraiMurid = [];
-
-        snapshot.forEach((docSnap) => {
-          senaraiMurid.push({
-            docId: docSnap.id,
-            ...docSnap.data()
-          });
-        });
-
-        kemasKiniDashboard(senaraiMurid);
-        paparData(senaraiMurid);
-      } catch (error) {
-        console.error(error);
-        alert("Ralat membaca data. Sila semak Firestore Rules.");
-      }
-    }
-
-    function kemasKiniDashboard(data) {
-      el("jumlahMurid").textContent = data.length;
-      el("jumlahLelaki").textContent = data.filter(
-        (murid) => murid.jantina === "Lelaki"
-      ).length;
-      el("jumlahPerempuan").textContent = data.filter(
-        (murid) => murid.jantina === "Perempuan"
-      ).length;
-
-      const bulanSemasa = new Date().getMonth() + 1;
-
-      const hariLahirBulanIni = data.filter((murid) => {
-        if (!murid.tarikhLahir) return false;
-        const bahagianTarikh = murid.tarikhLahir.split("-");
-        return bahagianTarikh.length >= 2 &&
-               Number(bahagianTarikh[1]) === bulanSemasa;
-      }).length;
-
-      el("jumlahHariLahir").textContent = hariLahirBulanIni;
-
-      const maklumatTidakLengkap = data.filter((murid) => {
-        return !murid.nama ||
-               !murid.idSekolah ||
-               !murid.tahun ||
-               !murid.jantina ||
-               !murid.tarikhLahir ||
-               !murid.suratBeranak ||
-               !murid.bruhims ||
-               !murid.alamat ||
-               !murid.namaAyah ||
-               !murid.telefonAyah ||
-               !murid.namaIbu ||
-               !murid.telefonIbu ||
-               !murid.namaPenjaga ||
-               !murid.telefon;
-      }).length;
-
-      el("jumlahTidakLengkap").textContent = maklumatTidakLengkap;
-    }
-
-    function cariMurid() {
-      const keyword = lower(el("searchInput").value);
-
-      if (keyword === "") {
-        alert("Sila taip kata kunci carian.");
-        return;
-      }
-
-      const hasil = senaraiMurid.filter((murid) =>
-        [
-          murid.namaLower,
-          murid.idSekolahLower,
-          murid.tahunLower,
-          murid.jantinaLower,
-          murid.bruhimsLower,
-          murid.suratBeranakLower,
-          murid.alamatLower,
-
-          murid.namaAyahLower,
-          murid.kadPintarAyahLower,
-          murid.telefonAyahLower,
-          murid.pekerjaanAyahLower,
-
-          murid.namaIbuLower,
-          murid.kadPintarIbuLower,
-          murid.telefonIbuLower,
-          murid.pekerjaanIbuLower,
-
-          murid.namaPenjagaLower,
-          murid.telefonLower,
-          murid.kaitanLower
-        ].some((nilai) => (nilai || "").includes(keyword))
-      );
-
-      paparData(hasil);
-    }
-
-    function paparData(data) {
-      const result = el("result");
-
-      el("jumlahPaparanText").innerHTML =
-        `<b>Rekod dipaparkan:</b> ${data.length}`;
-
-      result.innerHTML = "";
-
-      if (data.length === 0) {
-        result.innerHTML = "<p>Tiada data murid ditemui.</p>";
-        return;
-      }
-
-      data.forEach((murid) => {
-        const kad = document.createElement("div");
-        kad.className = "card";
-
-        kad.innerHTML = `
-          <h3>${murid.nama || "-"}</h3>
-
-          <div class="info"><b>ID Sekolah</b><span>${murid.idSekolah || "-"}</span></div>
-          <div class="info"><b>Tahun</b><span>${murid.tahun || "-"}</span></div>
-          <div class="info"><b>Jantina</b><span>${murid.jantina || "-"}</span></div>
-          <div class="info"><b>Tarikh Lahir</b><span>${murid.tarikhLahir || "-"}</span></div>
-          <div class="info"><b>No. Surat Beranak</b><span>${murid.suratBeranak || "-"}</span></div>
-          <div class="info"><b>No. Bru-HIMS</b><span>${murid.bruhims || "-"}</span></div>
-          <div class="info"><b>Alamat Tempat Tinggal</b><span>${murid.alamat || "-"}</span></div>
-
-          <div class="card-section ayah">Maklumat Ayah</div>
-          <div class="info"><b>Nama Ayah</b><span>${murid.namaAyah || "-"}</span></div>
-          <div class="info"><b>No. Kad Pintar Ayah</b><span>${murid.kadPintarAyah || "-"}</span></div>
-          <div class="info"><b>No. Telefon Ayah</b><span>${murid.telefonAyah || "-"}</span></div>
-          <div class="info"><b>Pekerjaan Ayah</b><span>${murid.pekerjaanAyah || "-"}</span></div>
-
-          <div class="card-section ibu">Maklumat Ibu</div>
-          <div class="info"><b>Nama Ibu</b><span>${murid.namaIbu || "-"}</span></div>
-          <div class="info"><b>No. Kad Pintar Ibu</b><span>${murid.kadPintarIbu || "-"}</span></div>
-          <div class="info"><b>No. Telefon Ibu</b><span>${murid.telefonIbu || "-"}</span></div>
-          <div class="info"><b>Pekerjaan Ibu</b><span>${murid.pekerjaanIbu || "-"}</span></div>
-
-          <div class="card-section hubungi">Penjaga yang Mudah Dihubungi</div>
-          <div class="info"><b>Nama Penjaga</b><span>${murid.namaPenjaga || "-"}</span></div>
-          <div class="info"><b>No. Telefon Penjaga</b><span>${murid.telefon || "-"}</span></div>
-          <div class="info"><b>Kaitan dengan Murid</b><span>${murid.kaitan || "-"}</span></div>
-
-          <button class="btn-edit">Edit</button>
-          <button class="btn-padam">Padam</button>
-          <button class="btn-cetak">Cetak Profil</button>
-        `;
-
-        kad.querySelector(".btn-edit").addEventListener("click", () => editData(murid));
-        kad.querySelector(".btn-padam").addEventListener("click", () => padamData(murid.docId));
-
-        kad.querySelector(".btn-cetak").addEventListener("click", () => {
-          result.innerHTML = "";
-          result.appendChild(kad);
-          window.print();
-          paparData(data);
-        });
-
-        result.appendChild(kad);
-      });
-    }
-
-    function editData(murid) {
-      el("docId").value = murid.docId || "";
-
-      el("nama").value = murid.nama || "";
-      el("idSekolah").value = murid.idSekolah || "";
-      el("tahun").value = murid.tahun || "";
-      el("jantina").value = murid.jantina || "";
-      el("tarikhLahir").value = murid.tarikhLahir || "";
-      el("suratBeranak").value = murid.suratBeranak || "";
-      el("bruhims").value = murid.bruhims || "";
-      el("alamat").value = murid.alamat || "";
-
-      el("namaAyah").value = murid.namaAyah || "";
-      el("kadPintarAyah").value = murid.kadPintarAyah || "";
-      el("telefonAyah").value = murid.telefonAyah || "";
-      el("pekerjaanAyah").value = murid.pekerjaanAyah || "";
-
-      el("namaIbu").value = murid.namaIbu || "";
-      el("kadPintarIbu").value = murid.kadPintarIbu || "";
-      el("telefonIbu").value = murid.telefonIbu || "";
-      el("pekerjaanIbu").value = murid.pekerjaanIbu || "";
-
-      el("namaPenjaga").value = murid.namaPenjaga || "";
-      el("telefon").value = murid.telefon || "";
-      el("kaitan").value = murid.kaitan || "";
-
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
-    async function padamData(docId) {
-      if (!confirm("Adakah Cikgu pasti mahu memadam data murid ini?")) {
-        return;
-      }
-
-      try {
-        await deleteDoc(doc(db, "murid_srbm", docId));
-        alert("Data murid berjaya dipadam.");
-        await muatData();
-      } catch (error) {
-        console.error(error);
-        alert("Ralat memadam data.");
-      }
-    }
-
-    function resetBorang() {
-      [
-        "docId",
-        "nama",
-        "idSekolah",
-        "tarikhLahir",
-        "suratBeranak",
-        "bruhims",
-        "alamat",
-
-        "namaAyah",
-        "kadPintarAyah",
-        "telefonAyah",
-        "pekerjaanAyah",
-
-        "namaIbu",
-        "kadPintarIbu",
-        "telefonIbu",
-        "pekerjaanIbu",
-
-        "namaPenjaga",
-        "telefon"
-      ].forEach((id) => {
-        el(id).value = "";
-      });
-
-      el("tahun").value = "";
-      el("jantina").value = "";
-      el("kaitan").value = "";
-    }
-
-
-    el("jumlahHariLahir").parentElement.addEventListener("click", () => {
-      const bulanSemasa = new Date().getMonth() + 1;
-      const hasil = senaraiMurid.filter((murid) => {
-        if (!murid.tarikhLahir) return false;
-        const bahagianTarikh = murid.tarikhLahir.split("-");
-        return bahagianTarikh.length >= 2 &&
-               Number(bahagianTarikh[1]) === bulanSemasa;
-      });
-      paparData(hasil);
-      el("result").scrollIntoView({ behavior: "smooth" });
-    });
-
-    el("jumlahTidakLengkap").parentElement.addEventListener("click", () => {
-      const hasil = senaraiMurid.filter((murid) => {
-        return !murid.nama ||
-               !murid.idSekolah ||
-               !murid.tahun ||
-               !murid.jantina ||
-               !murid.tarikhLahir ||
-               !murid.suratBeranak ||
-               !murid.bruhims ||
-               !murid.alamat ||
-               !murid.namaAyah ||
-               !murid.telefonAyah ||
-               !murid.namaIbu ||
-               !murid.telefonIbu ||
-               !murid.namaPenjaga ||
-               !murid.telefon;
-      });
-      paparData(hasil);
-      el("result").scrollIntoView({ behavior: "smooth" });
-    });
-
-    el("btnSimpan").addEventListener("click", simpanData);
-    el("btnReset").addEventListener("click", resetBorang);
-    el("btnSearch").addEventListener("click", cariMurid);
-    el("btnPaparSemua").addEventListener("click", () => paparData(senaraiMurid));
-
-    el("searchInput").addEventListener("keyup", (event) => {
-      if (event.key === "Enter") {
-        cariMurid();
-      }
-    });
-
-    muatData();
-  </script>
 </body>
 </html>
