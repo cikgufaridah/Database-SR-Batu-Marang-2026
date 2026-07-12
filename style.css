@@ -1,0 +1,780 @@
+/* ===============================
+   TETAPAN ASAS
+================================ */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --maroon-dark: #5b1737;
+  --maroon: #7a2048;
+  --maroon-light: #9b4167;
+  --cream: #fff8f0;
+  --white: #ffffff;
+  --light-gray: #f5f5f7;
+  --border: #e2e2e8;
+  --text-dark: #2d2d35;
+  --text-light: #6f6f7c;
+  --green: #198754;
+  --red: #dc3545;
+  --blue: #0d6efd;
+  --shadow: 0 8px 24px rgba(70, 25, 49, 0.1);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--light-gray);
+  color: var(--text-dark);
+  line-height: 1.5;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.hidden {
+  display: none !important;
+}
+
+
+/* ===============================
+   HEADER
+================================ */
+
+.top-header {
+  background: linear-gradient(
+    135deg,
+    var(--maroon-dark),
+    var(--maroon)
+  );
+  color: var(--white);
+  padding: 18px 24px;
+  box-shadow: 0 4px 15px rgba(40, 10, 25, 0.25);
+}
+
+.header-content {
+  width: min(1200px, 100%);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.logo-box {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.school-logo {
+  width: 58px;
+  height: 58px;
+  border-radius: 16px;
+  background: var(--white);
+  color: var(--maroon);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 16px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.logo-box h1 {
+  font-size: 26px;
+  letter-spacing: 0.5px;
+}
+
+.logo-box p {
+  margin-top: 2px;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+
+/* ===============================
+   NAVIGASI
+================================ */
+
+.main-nav {
+  background: var(--white);
+  padding: 10px 24px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.nav-button {
+  border: none;
+  background: transparent;
+  color: var(--text-light);
+  padding: 11px 22px;
+  border-radius: 10px;
+  font-weight: bold;
+  transition: 0.2s ease;
+}
+
+.nav-button:hover {
+  background: #f7eaf0;
+  color: var(--maroon);
+}
+
+.nav-button.active {
+  background: var(--maroon);
+  color: var(--white);
+}
+
+
+/* ===============================
+   KANDUNGAN UTAMA
+================================ */
+
+.main-container {
+  width: min(1200px, calc(100% - 32px));
+  margin: 28px auto 50px;
+}
+
+.page-section {
+  display: none;
+}
+
+.page-section.active {
+  display: block;
+}
+
+.page-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.page-heading h2 {
+  color: var(--maroon-dark);
+  font-size: 28px;
+}
+
+.page-heading p {
+  color: var(--text-light);
+  margin-top: 4px;
+}
+
+
+/* ===============================
+   BUTANG
+================================ */
+
+.btn-primary,
+.btn-secondary,
+.btn-edit,
+.btn-delete,
+.btn-view {
+  border: none;
+  border-radius: 10px;
+  padding: 11px 18px;
+  font-weight: bold;
+  transition: 0.2s ease;
+}
+
+.btn-primary {
+  background: var(--maroon);
+  color: var(--white);
+  box-shadow: 0 5px 13px rgba(122, 32, 72, 0.22);
+}
+
+.btn-primary:hover {
+  background: var(--maroon-dark);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: #ececf1;
+  color: var(--text-dark);
+}
+
+.btn-secondary:hover {
+  background: #ddddE5;
+}
+
+.btn-view {
+  background: #e8f1ff;
+  color: var(--blue);
+  padding: 7px 11px;
+}
+
+.btn-edit {
+  background: #fff3cd;
+  color: #7a5a00;
+  padding: 7px 11px;
+}
+
+.btn-delete {
+  background: #fde8eb;
+  color: var(--red);
+  padding: 7px 11px;
+}
+
+.btn-view:hover,
+.btn-edit:hover,
+.btn-delete:hover {
+  transform: translateY(-1px);
+  filter: brightness(0.96);
+}
+
+
+/* ===============================
+   KAD STATISTIK
+================================ */
+
+.statistics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.stat-card {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(122, 32, 72, 0.08);
+}
+
+.stat-icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 15px;
+  background: #f7eaf0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+}
+
+.stat-card p {
+  color: var(--text-light);
+  font-size: 14px;
+}
+
+.stat-card h3 {
+  color: var(--maroon-dark);
+  font-size: 27px;
+  margin-top: 2px;
+}
+
+
+/* ===============================
+   KAD KANDUNGAN
+================================ */
+
+.content-card {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 22px;
+  margin-bottom: 22px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(122, 32, 72, 0.07);
+}
+
+.card-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.card-heading h3 {
+  color: var(--maroon-dark);
+  font-size: 20px;
+}
+
+.card-heading p {
+  margin-top: 3px;
+  color: var(--text-light);
+  font-size: 14px;
+}
+
+
+/* ===============================
+   STATISTIK MENGIKUT TAHUN
+================================ */
+
+.year-statistics {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 13px;
+}
+
+.year-box {
+  background: linear-gradient(135deg, #fff4f8, #f9e7ef);
+  border: 1px solid #efd0dd;
+  border-radius: 14px;
+  padding: 17px 10px;
+  text-align: center;
+}
+
+.year-box span {
+  display: block;
+  color: var(--text-light);
+  font-size: 14px;
+}
+
+.year-box strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 25px;
+  color: var(--maroon);
+}
+
+
+/* ===============================
+   BORANG DAN TAPISAN
+================================ */
+
+.filter-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr auto;
+  gap: 16px;
+  align-items: end;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 17px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.form-group label {
+  font-weight: bold;
+  font-size: 14px;
+  color: var(--text-dark);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  background: var(--white);
+  border-radius: 10px;
+  padding: 11px 12px;
+  color: var(--text-dark);
+  outline: none;
+  transition: 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--maroon-light);
+  box-shadow: 0 0 0 3px rgba(122, 32, 72, 0.11);
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+.required {
+  color: var(--red);
+}
+
+.filter-button-box {
+  justify-content: flex-end;
+}
+
+
+/* ===============================
+   JADUAL
+================================ */
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 860px;
+}
+
+thead {
+  background: #f6e7ed;
+}
+
+th,
+td {
+  padding: 13px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+th {
+  color: var(--maroon-dark);
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+td {
+  font-size: 14px;
+}
+
+tbody tr:hover {
+  background: #fff9fb;
+}
+
+.action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.student-name {
+  font-weight: bold;
+  color: var(--text-dark);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.badge-lelaki {
+  color: #0753a7;
+  background: #e6f1ff;
+}
+
+.badge-perempuan {
+  color: #a22863;
+  background: #fdebf4;
+}
+
+.badge-tahun {
+  color: var(--maroon-dark);
+  background: #f5e4ec;
+}
+
+
+/* ===============================
+   KEADAAN DATA
+================================ */
+
+.loading-message {
+  padding: 30px 10px;
+  text-align: center;
+  color: var(--text-light);
+}
+
+.empty-message {
+  padding: 38px 15px;
+  text-align: center;
+  color: var(--text-light);
+}
+
+.empty-icon {
+  font-size: 45px;
+  margin-bottom: 10px;
+}
+
+.empty-message h3 {
+  color: var(--maroon-dark);
+  margin-bottom: 5px;
+}
+
+
+/* ===============================
+   MODAL
+================================ */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 28px 16px;
+  overflow-y: auto;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 10, 15, 0.58);
+  backdrop-filter: blur(3px);
+}
+
+.modal-content {
+  position: relative;
+  width: min(850px, 100%);
+  background: var(--white);
+  border-radius: 18px;
+  box-shadow: 0 20px 60px rgba(20, 5, 15, 0.35);
+  overflow: hidden;
+  z-index: 2;
+}
+
+.modal-header {
+  background: linear-gradient(
+    135deg,
+    var(--maroon-dark),
+    var(--maroon)
+  );
+  color: var(--white);
+  padding: 20px 22px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.modal-header h2 {
+  font-size: 23px;
+}
+
+.modal-header p {
+  margin-top: 3px;
+  opacity: 0.88;
+  font-size: 14px;
+}
+
+.btn-close {
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--white);
+  font-size: 27px;
+  line-height: 1;
+}
+
+.btn-close:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.form-section {
+  padding: 22px;
+  border-bottom: 1px solid var(--border);
+}
+
+.form-section h3 {
+  margin-bottom: 17px;
+  color: var(--maroon);
+  font-size: 18px;
+}
+
+.form-actions {
+  padding: 18px 22px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  background: #fafafa;
+}
+
+
+/* ===============================
+   NOTIFIKASI
+================================ */
+
+.notification {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 200;
+  max-width: 360px;
+  background: var(--green);
+  color: var(--white);
+  border-radius: 12px;
+  padding: 14px 18px;
+  font-weight: bold;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
+}
+
+.notification.error {
+  background: var(--red);
+}
+
+
+/* ===============================
+   PAPARAN TABLET
+================================ */
+
+@media (max-width: 950px) {
+  .statistics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .year-statistics {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .filter-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .filter-button-box {
+    grid-column: 1 / -1;
+  }
+
+  .filter-button-box .btn-secondary {
+    width: 100%;
+  }
+}
+
+
+/* ===============================
+   PAPARAN TELEFON
+================================ */
+
+@media (max-width: 650px) {
+  .top-header {
+    padding: 15px 16px;
+  }
+
+  .header-content {
+    align-items: flex-start;
+  }
+
+  .school-logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 13px;
+    font-size: 14px;
+  }
+
+  .logo-box h1 {
+    font-size: 21px;
+  }
+
+  .logo-box p {
+    font-size: 12px;
+  }
+
+  .header-content > .btn-primary {
+    display: none;
+  }
+
+  .main-nav {
+    padding: 9px 12px;
+  }
+
+  .nav-button {
+    flex: 1;
+    padding: 10px 7px;
+    font-size: 14px;
+  }
+
+  .main-container {
+    width: min(100% - 20px, 1200px);
+    margin-top: 18px;
+  }
+
+  .page-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .page-heading h2 {
+    font-size: 24px;
+  }
+
+  .page-heading .btn-primary {
+    width: 100%;
+  }
+
+  .statistics-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .year-statistics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .content-card {
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  .filter-grid,
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .full-width {
+    grid-column: auto;
+  }
+
+  .modal {
+    padding: 10px;
+  }
+
+  .modal-content {
+    border-radius: 14px;
+  }
+
+  .modal-header,
+  .form-section,
+  .form-actions {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .form-actions button {
+    width: 100%;
+  }
+
+  .notification {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    max-width: none;
+  }
+}
