@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Tambah Murid | SMMSRBM</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      color: #222;
+    }
+
+    .header {
+      background: #f4c7b8;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 4px solid #8b4f46;
+    }
+
+    .header h1 {
+      font-size: 26px;
+      margin-bottom: 5px;
+    }
+
+    .header p {
+      font-size: 15px;
+    }
+
+    .container {
+      width: 95%;
+      max-width: 900px;
+      margin: 25px auto;
+      background: white;
+      padding: 25px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 20px;
+      text-decoration: none;
+      color: #8b4f46;
+      font-weight: bold;
+    }
+
+    .section-title {
+      margin: 25px 0 15px;
+      padding: 10px;
+      background: #eeeeee;
+      border-left: 5px solid #8b4f46;
+      font-size: 18px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 11px;
+      border: 1px solid #aaa;
+      border-radius: 5px;
+      font-size: 15px;
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .two-column {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .three-column {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 15px;
+    }
+
+    .radio-group {
+      display: flex;
+      gap: 25px;
+      padding-top: 7px;
+    }
+
+    .radio-group label {
+      font-weight: normal;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .radio-group input {
+      width: auto;
+    }
+
+    .button-group {
+      margin-top: 30px;
+      display: flex;
+      gap: 12px;
+    }
+
+    button,
+    .cancel-button {
+      padding: 12px 22px;
+      border: none;
+      border-radius: 5px;
+      font-size: 15px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .save-button {
+      background: #8b4f46;
+      color: white;
+    }
+
+    .cancel-button {
+      background: #dddddd;
+      color: #222;
+    }
+
+    @media (max-width: 650px) {
+      .two-column,
+      .three-column {
+        grid-template-columns: 1fr;
+      }
+
+      .container {
+        padding: 18px;
+      }
+
+      .button-group {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="header">
+    <h1>Tambah Murid</h1>
+    <p>SMMSRBM — Sistem Maklumat Murid SR Batu Marang</p>
+  </header>
+
+  <main class="container">
+
+    <a href="index.html" class="back-link">← Kembali ke Halaman Utama</a>
+
+    <form id="borangMurid">
+
+      <h2 class="section-title">A. Maklumat Murid</h2>
+
+      <div class="form-group">
+        <label for="namaMurid">Nama Penuh Murid</label>
+        <input type="text" id="namaMurid" required>
+      </div>
+
+      <div class="two-column">
+        <div class="form-group">
+          <label for="idSekolah">ID Sekolah</label>
+          <input type="text" id="idSekolah" required>
+        </div>
+
+        <div class="form-group">
+          <label for="tahun">Tahun</label>
+          <select id="tahun" required>
+            <option value="">Pilih Tahun</option>
+            <option value="1">Tahun 1</option>
+            <option value="2">Tahun 2</option>
+            <option value="3">Tahun 3</option>
+            <option value="4">Tahun 4</option>
+            <option value="5">Tahun 5</option>
+            <option value="6">Tahun 6</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Jantina</label>
+
+        <div class="radio-group">
+          <label>
+            <input type="radio" name="jantina" value="Lelaki" required>
+            Lelaki
+          </label>
+
+          <label>
+            <input type="radio" name="jantina" value="Perempuan">
+            Perempuan
+          </label>
+        </div>
+      </div>
+
+      <div class="three-column">
+        <div class="form-group">
+          <label for="tarikhLahir">Tarikh Lahir</label>
+          <input type="date" id="tarikhLahir">
+        </div>
+
+        <div class="form-group">
+          <label for="suratBeranak">No. Surat Beranak</label>
+          <input type="text" id="suratBeranak">
+        </div>
+
+        <div class="form-group">
+          <label for="bruHims">No. Bru-HIMS</label>
+          <input type="text" id="bruHims">
+        </div>
+      </div>
+
+      <h2 class="section-title">B. Alamat Tempat Tinggal</h2>
+
+      <div class="form-group">
+        <label for="alamat">Alamat Lengkap Tempat Tinggal</label>
+        <textarea id="alamat"></textarea>
+      </div>
+
+      <h2 class="section-title">C. Maklumat Ayah</h2>
+
+      <div class="form-group">
+        <label for="namaAyah">Nama Penuh</label>
+        <input type="text" id="namaAyah">
+      </div>
+
+      <div class="two-column">
+        <div class="form-group">
+          <label for="pintarAyah">No. Pintar</label>
+          <input type="text" id="pintarAyah">
+        </div>
+
+        <div class="form-group">
+          <label for="warnaAyah">Warna Kad Pintar</label>
+          <select id="warnaAyah">
+            <option value="">Pilih Warna</option>
+            <option value="Kuning">Kuning</option>
+            <option value="Ungu">Ungu</option>
+            <option value="Hijau">Hijau</option>
+            <option value="Lain-lain">Lain-lain</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="two-column">
+        <div class="form-group">
+          <label for="pekerjaanAyah">Pekerjaan</label>
+          <input type="text" id="pekerjaanAyah">
+        </div>
+
+        <div class="form-group">
+          <label for="telefonAyah">No. Telefon</label>
+          <input type="tel" id="telefonAyah">
+        </div>
+      </div>
+
+      <h2 class="section-title">D. Maklumat Ibu</h2>
+
+      <div class="form-group">
+        <label for="namaIbu">Nama Penuh</label>
+        <input type="text" id="namaIbu">
+      </div>
+
+      <div class="two-column">
+        <div class="form-group">
+          <label for="pintarIbu">No. Pintar</label>
+          <input type="text" id="pintarIbu">
+        </div>
+
+        <div class="form-group">
+          <label for="warnaIbu">Warna Kad Pintar</label>
+          <select id="warnaIbu">
+            <option value="">Pilih Warna</option>
+            <option value="Kuning">Kuning</option>
+            <option value="Ungu">Ungu</option>
+            <option value="Hijau">Hijau</option>
+            <option value="Lain-lain">Lain-lain</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="two-column">
+        <div class="form-group">
+          <label for="pekerjaanIbu">Pekerjaan</label>
+          <input type="text" id="pekerjaanIbu">
+        </div>
+
+        <div class="form-group">
+          <label for="telefonIbu">No. Telefon</label>
+          <input type="tel" id="telefonIbu">
+        </div>
+      </div>
+
+      <h2 class="section-title">E. Maklumat Penjaga</h2>
+
+      <div class="form-group">
+        <label for="namaPenjaga">Nama Penuh</label>
+        <input type="text" id="namaPenjaga">
+      </div>
+
+      <div class="two-column">
+        <div class="form-group">
+          <label for="hubunganPenjaga">Hubungan dengan Murid</label>
+          <input type="text" id="hubunganPenjaga">
+        </div>
+
+        <div class="form-group">
+          <label for="pintarPenjaga">No. Pintar</label>
+          <input type="text" id="pintarPenjaga">
+        </div>
+      </div>
+
+      <div class="three-column">
+        <div class="form-group">
+          <label for="warnaPenjaga">Warna Kad Pintar</label>
+          <select id="warnaPenjaga">
+            <option value="">Pilih Warna</option>
+            <option value="Kuning">Kuning</option>
+            <option value="Ungu">Ungu</option>
+            <option value="Hijau">Hijau</option>
+            <option value="Lain-lain">Lain-lain</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="pekerjaanPenjaga">Pekerjaan</label>
+          <input type="text" id="pekerjaanPenjaga">
+        </div>
+
+        <div class="form-group">
+          <label for="telefonPenjaga">No. Telefon</label>
+          <input type="tel" id="telefonPenjaga">
+        </div>
+      </div>
+
+      <h2 class="section-title">F. Penjaga yang Mudah Dihubungi</h2>
+
+      <div class="three-column">
+        <div class="form-group">
+          <label for="namaDihubungi">Nama Penuh</label>
+          <input type="text" id="namaDihubungi">
+        </div>
+
+        <div class="form-group">
+          <label for="hubunganDihubungi">Hubungan dengan Murid</label>
+          <input type="text" id="hubunganDihubungi">
+        </div>
+
+        <div class="form-group">
+          <label for="telefonDihubungi">No. Telefon</label>
+          <input type="tel" id="telefonDihubungi">
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button type="submit" class="save-button">Simpan Maklumat</button>
+        <a href="index.html" class="cancel-button">Batal</a>
+      </div>
+
+    </form>
+
+  </main>
+
+  <script>
+    document
+      .getElementById("borangMurid")
+      .addEventListener("submit", function(event) {
+        event.preventDefault();
+        alert("Borang sudah lengkap. Sambungan Firebase dibuat pada langkah seterusnya.");
+      });
+  </script>
+
+</body>
+</html>
