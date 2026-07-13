@@ -2,184 +2,224 @@
 <html lang="ms">
 <head>
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <meta
-    name="theme-color"
-    content="#f3a69b"
-  >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>SMMSRBM</title>
 
-  <link rel="stylesheet" href="style.css">
-  <link rel="manifest" href="manifest.json">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff8f5;
+      color: #333;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #f6b5ae, #ffd69a);
+      text-align: center;
+      padding: 30px 20px;
+      border-radius: 0 0 25px 25px;
+    }
+
+    .logo-box {
+      width: 85px;
+      height: 85px;
+      background: white;
+      border-radius: 50%;
+      margin: 0 auto 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: bold;
+      color: #8b4f46;
+      border: 3px solid rgba(255, 255, 255, 0.8);
+    }
+
+    .header h1 {
+      font-size: 32px;
+      margin-bottom: 5px;
+    }
+
+    .header h2 {
+      font-size: 20px;
+      font-weight: normal;
+      margin-bottom: 5px;
+    }
+
+    .header p {
+      font-size: 15px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 25px auto;
+      padding: 0 18px 40px;
+    }
+
+    .welcome {
+      background: white;
+      padding: 22px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+    }
+
+    .welcome h3 {
+      margin-bottom: 8px;
+    }
+
+    .statistik {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .kad-statistik {
+      background: white;
+      padding: 20px;
+      text-align: center;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+    }
+
+    .kad-statistik span {
+      display: block;
+      font-size: 30px;
+      margin-bottom: 8px;
+    }
+
+    .kad-statistik strong {
+      display: block;
+      font-size: 28px;
+      margin-top: 8px;
+    }
+
+    .menu {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .menu a {
+      text-decoration: none;
+      color: #333;
+      padding: 25px;
+      border-radius: 18px;
+      box-shadow: 0 5px 14px rgba(0, 0, 0, 0.08);
+      transition: 0.2s;
+    }
+
+    .menu a:hover {
+      transform: translateY(-3px);
+    }
+
+    .senarai {
+      background: #ffd9dd;
+    }
+
+    .tambah {
+      background: #ffe1b8;
+    }
+
+    .menu-icon {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    .menu h3 {
+      margin-bottom: 6px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 22px;
+      font-size: 13px;
+      color: #777;
+    }
+
+    @media (max-width: 600px) {
+      .statistik {
+        grid-template-columns: 1fr;
+      }
+
+      .menu {
+        grid-template-columns: 1fr;
+      }
+
+      .header h1 {
+        font-size: 27px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-  <header class="hero">
-
-    <img
-      src="images/logo.png"
-      alt="Logo SR Batu Marang"
-      class="school-logo"
-    >
+  <header class="header">
+    <div class="logo-box">SRBM</div>
 
     <h1>SMMSRBM</h1>
-
     <h2>Sistem Maklumat Murid</h2>
-
     <p>SR Batu Marang</p>
-
   </header>
 
+  <main class="container">
 
-  <main class="main-container">
-
-    <section class="welcome-section">
-
+    <section class="welcome">
       <h3>Selamat Datang</h3>
-
-      <p>
-        Sistem pengurusan maklumat murid
-        Sekolah Rendah Batu Marang
-      </p>
-
+      <p>Sistem pengurusan maklumat murid Sekolah Rendah Batu Marang.</p>
     </section>
 
+    <section class="statistik">
 
-    <section class="summary-grid">
-
-      <div class="summary-card">
-
-        <span class="summary-icon">👨‍🎓</span>
-
-        <div>
-          <p>Jumlah Murid</p>
-          <strong id="jumlahMurid">0</strong>
-        </div>
-
+      <div class="kad-statistik">
+        <span>👨‍🎓</span>
+        <p>Jumlah Murid</p>
+        <strong id="jumlahMurid">0</strong>
       </div>
 
-
-      <div class="summary-card">
-
-        <span class="summary-icon">👦</span>
-
-        <div>
-          <p>Murid Lelaki</p>
-          <strong id="jumlahLelaki">0</strong>
-        </div>
-
+      <div class="kad-statistik">
+        <span>👦</span>
+        <p>Murid Lelaki</p>
+        <strong id="jumlahLelaki">0</strong>
       </div>
 
-
-      <div class="summary-card">
-
-        <span class="summary-icon">👧</span>
-
-        <div>
-          <p>Murid Perempuan</p>
-          <strong id="jumlahPerempuan">0</strong>
-        </div>
-
+      <div class="kad-statistik">
+        <span>👧</span>
+        <p>Murid Perempuan</p>
+        <strong id="jumlahPerempuan">0</strong>
       </div>
 
     </section>
 
+    <section class="menu">
 
-    <section class="menu-grid">
-
-      <a href="senarai-murid.html" class="menu-card menu-pink">
-
-        <span class="menu-icon">📋</span>
-
-        <div>
-          <h3>Senarai Murid</h3>
-          <p>Lihat dan urus maklumat murid</p>
-        </div>
-
+      <a href="senarai-murid.html" class="senarai">
+        <div class="menu-icon">📋</div>
+        <h3>Senarai Murid</h3>
+        <p>Lihat maklumat murid.</p>
       </a>
 
-
-      <a href="tambah-murid.html" class="menu-card menu-orange">
-
-        <span class="menu-icon">➕</span>
-
-        <div>
-          <h3>Tambah Murid</h3>
-          <p>Daftar maklumat murid baharu</p>
-        </div>
-
-      </a>
-
-
-      <a href="kelas.html" class="menu-card menu-green">
-
-        <span class="menu-icon">🏫</span>
-
-        <div>
-          <h3>Senarai Kelas</h3>
-          <p>Lihat murid mengikut tahun dan kelas</p>
-        </div>
-
-      </a>
-
-
-      <a href="statistik.html" class="menu-card menu-yellow">
-
-        <span class="menu-icon">📊</span>
-
-        <div>
-          <h3>Statistik</h3>
-          <p>Lihat jumlah dan pecahan murid</p>
-        </div>
-
-      </a>
-
-
-      <a href="maklumat-sekolah.html" class="menu-card menu-blue">
-
-        <span class="menu-icon">🏢</span>
-
-        <div>
-          <h3>Maklumat Sekolah</h3>
-          <p>Lihat maklumat guru dan kakitangan</p>
-        </div>
-
-      </a>
-
-
-      <a href="tetapan.html" class="menu-card menu-purple">
-
-        <span class="menu-icon">⚙️</span>
-
-        <div>
-          <h3>Tetapan</h3>
-          <p>Tetapan asas sistem</p>
-        </div>
-
+      <a href="tambah-murid.html" class="tambah">
+        <div class="menu-icon">➕</div>
+        <h3>Tambah Murid</h3>
+        <p>Daftar murid baharu.</p>
       </a>
 
     </section>
 
   </main>
 
-
   <footer>
-
-    <p>
-      SMMSRBM – Sistem Maklumat Murid SR Batu Marang
-    </p>
-
+    SMMSRBM — Sistem Maklumat Murid SR Batu Marang
   </footer>
-
-
-  <script type="module" src="dashboard.js"></script>
 
 </body>
 </html>
