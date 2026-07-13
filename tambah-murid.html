@@ -39,8 +39,8 @@
       width: 95%;
       max-width: 900px;
       margin: 25px auto;
-      background: white;
       padding: 25px;
+      background: white;
       border: 1px solid #ccc;
       border-radius: 8px;
     }
@@ -48,9 +48,9 @@
     .back-link {
       display: inline-block;
       margin-bottom: 20px;
-      text-decoration: none;
       color: #8b4f46;
       font-weight: bold;
+      text-decoration: none;
     }
 
     .section-title {
@@ -78,6 +78,7 @@
       padding: 11px;
       border: 1px solid #aaa;
       border-radius: 5px;
+      font-family: Arial, sans-serif;
       font-size: 15px;
     }
 
@@ -105,10 +106,10 @@
     }
 
     .radio-group label {
-      font-weight: normal;
       display: flex;
       align-items: center;
       gap: 6px;
+      font-weight: normal;
     }
 
     .radio-group input {
@@ -116,9 +117,9 @@
     }
 
     .button-group {
-      margin-top: 30px;
       display: flex;
       gap: 12px;
+      margin-top: 30px;
     }
 
     button,
@@ -127,8 +128,8 @@
       border: none;
       border-radius: 5px;
       font-size: 15px;
-      cursor: pointer;
       text-decoration: none;
+      cursor: pointer;
     }
 
     .save-button {
@@ -136,9 +137,34 @@
       color: white;
     }
 
+    .save-button:disabled {
+      background: #aaa;
+      cursor: not-allowed;
+    }
+
     .cancel-button {
-      background: #dddddd;
+      background: #ddd;
       color: #222;
+    }
+
+    .message {
+      display: none;
+      margin-top: 18px;
+      padding: 14px;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+    .message-success {
+      background: #d9f5df;
+      color: #19692c;
+      border: 1px solid #91d49e;
+    }
+
+    .message-error {
+      background: #ffe0e0;
+      color: #9b1c1c;
+      border: 1px solid #efaaaa;
     }
 
     @media (max-width: 650px) {
@@ -167,7 +193,9 @@
 
   <main class="container">
 
-    <a href="index.html" class="back-link">← Kembali ke Halaman Utama</a>
+    <a href="index.html" class="back-link">
+      ← Kembali ke Halaman Utama
+    </a>
 
     <form id="borangMurid">
 
@@ -186,6 +214,7 @@
 
         <div class="form-group">
           <label for="tahun">Tahun</label>
+
           <select id="tahun" required>
             <option value="">Pilih Tahun</option>
             <option value="1">Tahun 1</option>
@@ -253,6 +282,7 @@
 
         <div class="form-group">
           <label for="warnaAyah">Warna Kad Pintar</label>
+
           <select id="warnaAyah">
             <option value="">Pilih Warna</option>
             <option value="Kuning">Kuning</option>
@@ -290,6 +320,7 @@
 
         <div class="form-group">
           <label for="warnaIbu">Warna Kad Pintar</label>
+
           <select id="warnaIbu">
             <option value="">Pilih Warna</option>
             <option value="Kuning">Kuning</option>
@@ -334,6 +365,7 @@
       <div class="three-column">
         <div class="form-group">
           <label for="warnaPenjaga">Warna Kad Pintar</label>
+
           <select id="warnaPenjaga">
             <option value="">Pilih Warna</option>
             <option value="Kuning">Kuning</option>
@@ -354,7 +386,9 @@
         </div>
       </div>
 
-      <h2 class="section-title">F. Penjaga yang Mudah Dihubungi</h2>
+      <h2 class="section-title">
+        F. Penjaga yang Mudah Dihubungi
+      </h2>
 
       <div class="three-column">
         <div class="form-group">
@@ -374,21 +408,145 @@
       </div>
 
       <div class="button-group">
-        <button type="submit" class="save-button">Simpan Maklumat</button>
-        <a href="index.html" class="cancel-button">Batal</a>
+        <button type="submit" id="butangSimpan" class="save-button">
+          Simpan Maklumat
+        </button>
+
+        <a href="index.html" class="cancel-button">
+          Batal
+        </a>
+      </div>
+
+      <div id="mesejBerjaya" class="message message-success">
+        Maklumat murid berjaya disimpan.
+      </div>
+
+      <div id="mesejRalat" class="message message-error">
+        Maklumat tidak dapat disimpan.
       </div>
 
     </form>
 
   </main>
 
-  <script>
-    document
-      .getElementById("borangMurid")
-      .addEventListener("submit", function(event) {
-        event.preventDefault();
-        alert("Borang sudah lengkap. Sambungan Firebase dibuat pada langkah seterusnya.");
-      });
+  <script type="module">
+    import {
+      initializeApp
+    } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBdwAAJ6UwN4ekwDFepjrUJXPrIDM0x2qA",
+      authDomain: "sistem-maklumat-murid-srbm.firebaseapp.com",
+      projectId: "sistem-maklumat-murid-srbm",
+      storageBucket: "sistem-maklumat-murid-srbm.firebasestorage.app",
+      messagingSenderId: "532951554931",
+      appId: "1:532951554931:web:d3551739b68420af1a0306"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const borang = document.getElementById("borangMurid");
+    const butangSimpan = document.getElementById("butangSimpan");
+    const mesejBerjaya = document.getElementById("mesejBerjaya");
+    const mesejRalat = document.getElementById("mesejRalat");
+
+    borang.addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      mesejBerjaya.style.display = "none";
+      mesejRalat.style.display = "none";
+
+      const jantinaDipilih = document.querySelector(
+        'input[name="jantina"]:checked'
+      );
+
+      if (!jantinaDipilih) {
+        alert("Sila pilih jantina murid.");
+        return;
+      }
+
+      butangSimpan.disabled = true;
+      butangSimpan.textContent = "Sedang menyimpan...";
+
+      const dataMurid = {
+        namaMurid: document.getElementById("namaMurid").value.trim(),
+        idSekolah: document.getElementById("idSekolah").value.trim(),
+        tahun: document.getElementById("tahun").value,
+        jantina: jantinaDipilih.value,
+        tarikhLahir: document.getElementById("tarikhLahir").value,
+        suratBeranak: document.getElementById("suratBeranak").value.trim(),
+        bruHims: document.getElementById("bruHims").value.trim(),
+        alamat: document.getElementById("alamat").value.trim(),
+
+        ayah: {
+          nama: document.getElementById("namaAyah").value.trim(),
+          noPintar: document.getElementById("pintarAyah").value.trim(),
+          warna: document.getElementById("warnaAyah").value,
+          pekerjaan: document.getElementById("pekerjaanAyah").value.trim(),
+          telefon: document.getElementById("telefonAyah").value.trim()
+        },
+
+        ibu: {
+          nama: document.getElementById("namaIbu").value.trim(),
+          noPintar: document.getElementById("pintarIbu").value.trim(),
+          warna: document.getElementById("warnaIbu").value,
+          pekerjaan: document.getElementById("pekerjaanIbu").value.trim(),
+          telefon: document.getElementById("telefonIbu").value.trim()
+        },
+
+        penjaga: {
+          nama: document.getElementById("namaPenjaga").value.trim(),
+          hubungan: document.getElementById("hubunganPenjaga").value.trim(),
+          noPintar: document.getElementById("pintarPenjaga").value.trim(),
+          warna: document.getElementById("warnaPenjaga").value,
+          pekerjaan: document.getElementById("pekerjaanPenjaga").value.trim(),
+          telefon: document.getElementById("telefonPenjaga").value.trim()
+        },
+
+        mudahDihubungi: {
+          nama: document.getElementById("namaDihubungi").value.trim(),
+          hubungan: document.getElementById("hubunganDihubungi").value.trim(),
+          telefon: document.getElementById("telefonDihubungi").value.trim()
+        },
+
+        tarikhDaftar: serverTimestamp()
+      };
+
+      try {
+        await addDoc(collection(db, "students"), dataMurid);
+
+        mesejBerjaya.style.display = "block";
+        borang.reset();
+
+        window.scrollTo({
+          top: document.body.scrollHeight,
+          behavior: "smooth"
+        });
+
+        setTimeout(function () {
+          window.location.href = "index.html";
+        }, 1500);
+
+      } catch (error) {
+        console.error("Ralat Firebase:", error);
+
+        mesejRalat.textContent =
+          "Maklumat tidak dapat disimpan. " + error.message;
+
+        mesejRalat.style.display = "block";
+
+        butangSimpan.disabled = false;
+        butangSimpan.textContent = "Simpan Maklumat";
+      }
+    });
   </script>
 
 </body>
