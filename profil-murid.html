@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ms"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Profil Murid | SMMSRBM</title><link rel="stylesheet" href="style.css"></head><body>
+<header><h1>Profil Murid</h1><p>SMMSRBM — Sistem Maklumat Murid SR Batu Marang</p></header>
+<main class="container"><a class="back-link" href="senarai-murid.html">← Kembali ke Senarai Murid</a><div id="profil" class="empty">Memuatkan profil...</div></main>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+import { firebaseConfig } from "./firebase.js";
+const db=getFirestore(initializeApp(firebaseConfig)),id=new URLSearchParams(location.search).get("id"),p=document.getElementById("profil");
+const val=x=>x||"-";
+if(!id){p.textContent="ID murid tidak ditemui."}else{const s=await getDoc(doc(db,"students",id));if(!s.exists()){p.textContent="Maklumat murid tidak ditemui."}else{const x=s.data(),a=x.ayah||{},i=x.ibu||{},m=x.mudahDihubungi||{};p.className="";p.innerHTML=`<div class="button-group"><a class="btn btn-primary" href="edit-murid.html?id=${id}">Edit Maklumat</a><button class="btn btn-secondary" onclick="window.print()">Cetak</button></div>
+<div class="profile-grid">
+<div class="card"><h3>Maklumat Murid</h3><p><b>Nama:</b> ${val(x.namaMurid)}</p><p><b>ID Sekolah:</b> ${val(x.idSekolah)}</p><p><b>Tahun:</b> ${val(x.tahun)}</p><p><b>Jantina:</b> ${val(x.jantina)}</p><p><b>Tarikh Lahir:</b> ${val(x.tarikhLahir)}</p><p><b>No. Surat Beranak:</b> ${val(x.suratBeranak)}</p><p><b>No. Bru-HIMS:</b> ${val(x.bruHims)}</p><p><b>Alamat:</b> ${val(x.alamat)}</p></div>
+<div class="card"><h3>Maklumat Ayah</h3><p><b>Nama:</b> ${val(a.nama)}</p><p><b>No. Pintar:</b> ${val(a.noPintar)}</p><p><b>Warna:</b> ${val(a.warna)}</p><p><b>Pekerjaan:</b> ${val(a.pekerjaan)}</p><p><b>No. Telefon:</b> ${val(a.telefon)}</p></div>
+<div class="card"><h3>Maklumat Ibu</h3><p><b>Nama:</b> ${val(i.nama)}</p><p><b>No. Pintar:</b> ${val(i.noPintar)}</p><p><b>Warna:</b> ${val(i.warna)}</p><p><b>Pekerjaan:</b> ${val(i.pekerjaan)}</p><p><b>No. Telefon:</b> ${val(i.telefon)}</p></div>
+<div class="card"><h3>Penjaga Mudah Dihubungi</h3><p><b>Nama:</b> ${val(m.nama)}</p><p><b>Hubungan:</b> ${val(m.hubungan)}</p><p><b>No. Telefon:</b> ${val(m.telefon)}</p></div>
+</div>`;}}
+</script></body></html>

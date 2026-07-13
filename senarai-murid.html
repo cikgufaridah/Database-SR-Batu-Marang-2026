@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ms"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Senarai Murid | SMMSRBM</title><link rel="stylesheet" href="style.css"></head><body>
+<header><h1>Senarai Murid</h1><p>SMMSRBM — Sistem Maklumat Murid SR Batu Marang</p></header>
+<main class="container"><a class="back-link" href="index.html">← Kembali ke Halaman Utama</a>
+<div class="toolbar"><input id="carian" placeholder="Cari nama atau ID sekolah"><select id="tahun"><option value="">Semua Tahun</option><option value="1">Tahun 1</option><option value="2">Tahun 2</option><option value="3">Tahun 3</option><option value="4">Tahun 4</option><option value="5">Tahun 5</option><option value="6">Tahun 6</option></select><a class="btn btn-primary" href="tambah-murid.html">Tambah Murid</a></div>
+<div style="overflow-x:auto"><table><thead><tr><th>Nama</th><th>ID Sekolah</th><th>Tahun</th><th>Jantina</th><th>Tindakan</th></tr></thead><tbody id="tbody"><tr><td colspan="5" class="empty">Memuatkan data...</td></tr></tbody></table></div>
+</main>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+import { getFirestore, collection, onSnapshot, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+import { firebaseConfig } from "./firebase.js";
+const db=getFirestore(initializeApp(firebaseConfig));
+let data=[]; const tbody=document.getElementById("tbody"),carian=document.getElementById("carian"),tahun=document.getElementById("tahun");
+function papar(){const q=carian.value.toLowerCase(),t=tahun.value;const f=data.filter(x=>(!q||x.namaMurid.toLowerCase().includes(q)||(x.idSekolah||"").toLowerCase().includes(q))&&(!t||x.tahun===t));
+tbody.innerHTML=f.length?f.map(x=>`<tr><td>${x.namaMurid||""}</td><td>${x.idSekolah||""}</td><td>${x.tahun||""}</td><td>${x.jantina||""}</td><td class="actions"><a class="btn btn-secondary" href="profil-murid.html?id=${x.id}">Profil</a><a class="btn btn-primary" href="edit-murid.html?id=${x.id}">Edit</a><button class="btn-danger" data-id="${x.id}" data-nama="${x.namaMurid||""}">Padam</button></td></tr>`).join(""):`<tr><td colspan="5" class="empty">Tiada data murid.</td></tr>`;}
+onSnapshot(collection(db,"students"),s=>{data=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(a.namaMurid||"").localeCompare(b.namaMurid||""));papar();});
+carian.addEventListener("input",papar);tahun.addEventListener("change",papar);
+tbody.addEventListener("click",async e=>{if(e.target.matches("button[data-id]")){if(confirm(`Padam maklumat ${e.target.dataset.nama}?`)){await deleteDoc(doc(db,"students",e.target.dataset.id));}}});
+</script></body></html>

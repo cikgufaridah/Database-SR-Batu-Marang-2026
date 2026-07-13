@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ms"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Tambah Murid | SMMSRBM</title><link rel="stylesheet" href="style.css"></head><body>
-<header><h1>Tambah Murid</h1><p>SMMSRBM — Sistem Maklumat Murid SR Batu Marang</p></header>
-<main class="container"><a class="back-link" href="index.html">← Kembali ke Halaman Utama</a>
+<title>Edit Murid | SMMSRBM</title><link rel="stylesheet" href="style.css"></head><body>
+<header><h1>Edit Murid</h1><p>SMMSRBM — Sistem Maklumat Murid SR Batu Marang</p></header>
+<main class="container"><a class="back-link" href="senarai-murid.html">← Kembali ke Senarai Murid</a>
 <form id="borangMurid">
 <h2 class="section-title">A. Maklumat Murid</h2>
 <div class="form-group"><label for="namaMurid">Nama Penuh Murid</label><input id="namaMurid" required></div>
@@ -59,26 +59,29 @@
   <div class="form-group"><label for="telefonDihubungi">No. Telefon</label><input type="tel" id="telefonDihubungi"></div>
 </div>
 
-<div class="button-group"><button class="btn-primary" id="butangSimpan" type="submit">Simpan Maklumat</button><a class="btn btn-secondary" href="index.html">Batal</a></div>
-<div id="ok" class="notice ok">Maklumat murid berjaya disimpan.</div><div id="bad" class="notice bad"></div>
+<div class="button-group"><button class="btn-primary" id="butangSimpan" type="submit">Simpan Perubahan</button><a class="btn btn-secondary" href="senarai-murid.html">Batal</a></div>
+<div id="ok" class="notice ok">Maklumat murid berjaya dikemas kini.</div><div id="bad" class="notice bad"></div>
 </form></main>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
-import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 import { firebaseConfig } from "./firebase.js";
-const db=getFirestore(initializeApp(firebaseConfig));
+const db=getFirestore(initializeApp(firebaseConfig)),id=new URLSearchParams(location.search).get("id");
+const v=id=>document.getElementById(id).value.trim(),set=(id,val)=>document.getElementById(id).value=val||"";
+const ref=doc(db,"students",id),snap=await getDoc(ref);
+if(!snap.exists()){alert("Maklumat murid tidak ditemui.");location.href="senarai-murid.html";}
+const x=snap.data(),a=x.ayah||{},i=x.ibu||{},m=x.mudahDihubungi||{};
+["namaMurid","idSekolah","tahun","tarikhLahir","suratBeranak","bruHims","alamat"].forEach(k=>set(k,x[k]));
+document.querySelector(`input[name="jantina"][value="${x.jantina}"]`)?.click();
+set("namaAyah",a.nama);set("pintarAyah",a.noPintar);set("warnaAyah",a.warna);set("pekerjaanAyah",a.pekerjaan);set("telefonAyah",a.telefon);
+set("namaIbu",i.nama);set("pintarIbu",i.noPintar);set("warnaIbu",i.warna);set("pekerjaanIbu",i.pekerjaan);set("telefonIbu",i.telefon);
+set("namaDihubungi",m.nama);set("hubunganDihubungi",m.hubungan);set("telefonDihubungi",m.telefon);
 const f=document.getElementById("borangMurid"),b=document.getElementById("butangSimpan"),ok=document.getElementById("ok"),bad=document.getElementById("bad");
-const v=id=>document.getElementById(id).value.trim();
-f.addEventListener("submit",async e=>{
- e.preventDefault(); ok.style.display="none"; bad.style.display="none";
- const j=document.querySelector('input[name="jantina"]:checked');
- if(!j) return alert("Sila pilih jantina murid.");
- b.disabled=true;b.textContent="Sedang menyimpan...";
- const data={namaMurid:v("namaMurid"),idSekolah:v("idSekolah"),tahun:v("tahun"),jantina:j.value,tarikhLahir:v("tarikhLahir"),suratBeranak:v("suratBeranak"),bruHims:v("bruHims"),alamat:v("alamat"),
- ayah:{nama:v("namaAyah"),noPintar:v("pintarAyah"),warna:v("warnaAyah"),pekerjaan:v("pekerjaanAyah"),telefon:v("telefonAyah")},
- ibu:{nama:v("namaIbu"),noPintar:v("pintarIbu"),warna:v("warnaIbu"),pekerjaan:v("pekerjaanIbu"),telefon:v("telefonIbu")},
- mudahDihubungi:{nama:v("namaDihubungi"),hubungan:v("hubunganDihubungi"),telefon:v("telefonDihubungi")},tarikhDaftar:serverTimestamp()};
- try{await addDoc(collection(db,"students"),data);ok.style.display="block";f.reset();setTimeout(()=>location.href="senarai-murid.html",900);}
- catch(err){bad.textContent="Maklumat tidak dapat disimpan: "+err.message;bad.style.display="block";b.disabled=false;b.textContent="Simpan Maklumat";}
-});
+f.addEventListener("submit",async e=>{e.preventDefault();const j=document.querySelector('input[name="jantina"]:checked');b.disabled=true;b.textContent="Sedang menyimpan...";
+const data={namaMurid:v("namaMurid"),idSekolah:v("idSekolah"),tahun:v("tahun"),jantina:j?.value||"",tarikhLahir:v("tarikhLahir"),suratBeranak:v("suratBeranak"),bruHims:v("bruHims"),alamat:v("alamat"),
+ayah:{nama:v("namaAyah"),noPintar:v("pintarAyah"),warna:v("warnaAyah"),pekerjaan:v("pekerjaanAyah"),telefon:v("telefonAyah")},
+ibu:{nama:v("namaIbu"),noPintar:v("pintarIbu"),warna:v("warnaIbu"),pekerjaan:v("pekerjaanIbu"),telefon:v("telefonIbu")},
+mudahDihubungi:{nama:v("namaDihubungi"),hubungan:v("hubunganDihubungi"),telefon:v("telefonDihubungi")},tarikhKemaskini:serverTimestamp()};
+try{await updateDoc(ref,data);ok.style.display="block";setTimeout(()=>location.href=`profil-murid.html?id=${id}`,800);}
+catch(err){bad.textContent="Maklumat tidak dapat dikemas kini: "+err.message;bad.style.display="block";b.disabled=false;b.textContent="Simpan Perubahan";}});
 </script></body></html>

@@ -1,225 +1,48 @@
 <!DOCTYPE html>
 <html lang="ms">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>SMMSRBM</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      background: #fff8f5;
-      color: #333;
-    }
-
-    .header {
-      background: linear-gradient(135deg, #f6b5ae, #ffd69a);
-      text-align: center;
-      padding: 30px 20px;
-      border-radius: 0 0 25px 25px;
-    }
-
-    .logo-box {
-      width: 85px;
-      height: 85px;
-      background: white;
-      border-radius: 50%;
-      margin: 0 auto 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      font-weight: bold;
-      color: #8b4f46;
-      border: 3px solid rgba(255, 255, 255, 0.8);
-    }
-
-    .header h1 {
-      font-size: 32px;
-      margin-bottom: 5px;
-    }
-
-    .header h2 {
-      font-size: 20px;
-      font-weight: normal;
-      margin-bottom: 5px;
-    }
-
-    .header p {
-      font-size: 15px;
-    }
-
-    .container {
-      max-width: 900px;
-      margin: 25px auto;
-      padding: 0 18px 40px;
-    }
-
-    .welcome {
-      background: white;
-      padding: 22px;
-      border-radius: 16px;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
-    }
-
-    .welcome h3 {
-      margin-bottom: 8px;
-    }
-
-    .statistik {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
-      margin-bottom: 25px;
-    }
-
-    .kad-statistik {
-      background: white;
-      padding: 20px;
-      text-align: center;
-      border-radius: 16px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
-    }
-
-    .kad-statistik span {
-      display: block;
-      font-size: 30px;
-      margin-bottom: 8px;
-    }
-
-    .kad-statistik strong {
-      display: block;
-      font-size: 28px;
-      margin-top: 8px;
-    }
-
-    .menu {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 18px;
-    }
-
-    .menu a {
-      text-decoration: none;
-      color: #333;
-      padding: 25px;
-      border-radius: 18px;
-      box-shadow: 0 5px 14px rgba(0, 0, 0, 0.08);
-      transition: 0.2s;
-    }
-
-    .menu a:hover {
-      transform: translateY(-3px);
-    }
-
-    .senarai {
-      background: #ffd9dd;
-    }
-
-    .tambah {
-      background: #ffe1b8;
-    }
-
-    .menu-icon {
-      font-size: 36px;
-      margin-bottom: 10px;
-    }
-
-    .menu h3 {
-      margin-bottom: 6px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 22px;
-      font-size: 13px;
-      color: #777;
-    }
-
-    @media (max-width: 600px) {
-      .statistik {
-        grid-template-columns: 1fr;
-      }
-
-      .menu {
-        grid-template-columns: 1fr;
-      }
-
-      .header h1 {
-        font-size: 27px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#8b4f46">
+<title>SMMSRBM</title>
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
 </head>
-
 <body>
-
-  <header class="header">
-    <div class="logo-box">SRBM</div>
-
-    <h1>SMMSRBM</h1>
-    <h2>Sistem Maklumat Murid</h2>
-    <p>SR Batu Marang</p>
-  </header>
-
-  <main class="container">
-
-    <section class="welcome">
-      <h3>Selamat Datang</h3>
-      <p>Sistem pengurusan maklumat murid Sekolah Rendah Batu Marang.</p>
-    </section>
-
-    <section class="statistik">
-
-      <div class="kad-statistik">
-        <span>👨‍🎓</span>
-        <p>Jumlah Murid</p>
-        <strong id="jumlahMurid">0</strong>
-      </div>
-
-      <div class="kad-statistik">
-        <span>👦</span>
-        <p>Murid Lelaki</p>
-        <strong id="jumlahLelaki">0</strong>
-      </div>
-
-      <div class="kad-statistik">
-        <span>👧</span>
-        <p>Murid Perempuan</p>
-        <strong id="jumlahPerempuan">0</strong>
-      </div>
-
-    </section>
-
-    <section class="menu">
-
-      <a href="senarai-murid.html" class="senarai">
-        <div class="menu-icon">📋</div>
-        <h3>Senarai Murid</h3>
-        <p>Lihat maklumat murid.</p>
-      </a>
-
-      <a href="tambah-murid.html" class="tambah">
-        <div class="menu-icon">➕</div>
-        <h3>Tambah Murid</h3>
-        <p>Daftar murid baharu.</p>
-      </a>
-
-    </section>
-
-  </main>
-
-  <footer>
-    SMMSRBM — Sistem Maklumat Murid SR Batu Marang
-  </footer>
-
+<header>
+  <h1>SMMSRBM</h1>
+  <p>Sistem Maklumat Murid SR Batu Marang</p>
+</header>
+<main class="container">
+  <h2 class="dashboard-title">Halaman Utama</h2>
+  <section class="stats">
+    <div class="stat"><p>Jumlah Murid</p><strong id="jumlahMurid">0</strong></div>
+    <div class="stat"><p>Murid Lelaki</p><strong id="jumlahLelaki">0</strong></div>
+    <div class="stat"><p>Murid Perempuan</p><strong id="jumlahPerempuan">0</strong></div>
+  </section>
+  <section class="menu">
+    <a href="senarai-murid.html"><h3>Senarai Murid</h3><p>Lihat, cari, edit dan padam maklumat murid.</p></a>
+    <a href="tambah-murid.html"><h3>Tambah Murid</h3><p>Daftar maklumat murid baharu.</p></a>
+  </section>
+</main>
+<footer>SMMSRBM — Sistem Maklumat Murid SR Batu Marang</footer>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+import { firebaseConfig } from "./firebase.js";
+const db=getFirestore(initializeApp(firebaseConfig));
+onSnapshot(collection(db,"students"),snap=>{
+  let lelaki=0,perempuan=0;
+  snap.forEach(d=>{
+    const x=d.data();
+    if(x.jantina==="Lelaki") lelaki++;
+    if(x.jantina==="Perempuan") perempuan++;
+  });
+  document.getElementById("jumlahMurid").textContent=snap.size;
+  document.getElementById("jumlahLelaki").textContent=lelaki;
+  document.getElementById("jumlahPerempuan").textContent=perempuan;
+});
+if("serviceWorker" in navigator){navigator.serviceWorker.register("./sw.js").catch(()=>{});}
+</script>
 </body>
 </html>
