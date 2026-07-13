@@ -9,611 +9,177 @@
   >
 
   <meta
-    name="description"
-    content="Sistem Maklumat Murid Sekolah Rendah Batu Marang"
+    name="theme-color"
+    content="#f3a69b"
   >
 
-  <title>SMM SRBM</title>
+  <title>SMMSRBM</title>
 
   <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
 </head>
 
 <body>
 
-  <!-- Bahagian atas -->
-  <header class="top-header">
-    <div class="header-content">
+  <header class="hero">
 
-      <div class="logo-box">
-        <div class="school-logo">SRBM</div>
+    <img
+      src="images/logo.png"
+      alt="Logo SR Batu Marang"
+      class="school-logo"
+    >
 
-        <div>
-          <h1>SMM SRBM</h1>
-          <p>Sistem Maklumat Murid</p>
-        </div>
-      </div>
+    <h1>SMMSRBM</h1>
 
-      <button
-        type="button"
-        class="btn-primary"
-        id="btnBukaBorang"
-      >
-        + Tambah Murid
-      </button>
+    <h2>Sistem Maklumat Murid</h2>
 
-    </div>
+    <p>SR Batu Marang</p>
+
   </header>
-
-
-  <!-- Menu navigasi -->
-  <nav class="main-nav">
-    <button
-      type="button"
-      class="nav-button active"
-      data-page="dashboard"
-    >
-      Dashboard
-    </button>
-
-    <button
-      type="button"
-      class="nav-button"
-      data-page="murid"
-    >
-      Senarai Murid
-    </button>
-  </nav>
 
 
   <main class="main-container">
 
-    <!-- =========================
-         HALAMAN DASHBOARD
-    ========================== -->
-    <section
-      class="page-section active"
-      id="dashboardPage"
-    >
+    <section class="welcome-section">
 
-      <div class="page-heading">
-        <div>
-          <h2>Dashboard</h2>
-          <p>Ringkasan maklumat murid SRBM</p>
-        </div>
-      </div>
+      <h3>Selamat Datang</h3>
 
-
-      <!-- Kad statistik -->
-      <div class="statistics-grid">
-
-        <article class="stat-card">
-          <div class="stat-icon">👨‍🎓</div>
-
-          <div>
-            <p>Jumlah Murid</p>
-            <h3 id="jumlahMurid">0</h3>
-          </div>
-        </article>
-
-
-        <article class="stat-card">
-          <div class="stat-icon">👦</div>
-
-          <div>
-            <p>Murid Lelaki</p>
-            <h3 id="jumlahLelaki">0</h3>
-          </div>
-        </article>
-
-
-        <article class="stat-card">
-          <div class="stat-icon">👧</div>
-
-          <div>
-            <p>Murid Perempuan</p>
-            <h3 id="jumlahPerempuan">0</h3>
-          </div>
-        </article>
-
-
-        <article class="stat-card">
-          <div class="stat-icon">🏫</div>
-
-          <div>
-            <p>Jumlah Kelas</p>
-            <h3 id="jumlahKelas">0</h3>
-          </div>
-        </article>
-
-      </div>
-
-
-      <!-- Statistik mengikut tahun -->
-      <section class="content-card">
-
-        <div class="card-heading">
-          <div>
-            <h3>Jumlah Murid Mengikut Tahun</h3>
-            <p>Bilangan murid Tahun 1 hingga Tahun 6</p>
-          </div>
-        </div>
-
-        <div class="year-statistics">
-
-          <div class="year-box">
-            <span>Tahun 1</span>
-            <strong id="jumlahTahun1">0</strong>
-          </div>
-
-          <div class="year-box">
-            <span>Tahun 2</span>
-            <strong id="jumlahTahun2">0</strong>
-          </div>
-
-          <div class="year-box">
-            <span>Tahun 3</span>
-            <strong id="jumlahTahun3">0</strong>
-          </div>
-
-          <div class="year-box">
-            <span>Tahun 4</span>
-            <strong id="jumlahTahun4">0</strong>
-          </div>
-
-          <div class="year-box">
-            <span>Tahun 5</span>
-            <strong id="jumlahTahun5">0</strong>
-          </div>
-
-          <div class="year-box">
-            <span>Tahun 6</span>
-            <strong id="jumlahTahun6">0</strong>
-          </div>
-
-        </div>
-
-      </section>
+      <p>
+        Sistem pengurusan maklumat murid
+        Sekolah Rendah Batu Marang
+      </p>
 
     </section>
 
 
-    <!-- =========================
-         HALAMAN SENARAI MURID
-    ========================== -->
-    <section
-      class="page-section"
-      id="muridPage"
-    >
+    <section class="summary-grid">
 
-      <div class="page-heading">
+      <div class="summary-card">
+
+        <span class="summary-icon">👨‍🎓</span>
 
         <div>
-          <h2>Senarai Murid</h2>
-          <p>Tambah, cari dan kemas kini maklumat murid</p>
+          <p>Jumlah Murid</p>
+          <strong id="jumlahMurid">0</strong>
         </div>
-
-        <button
-          type="button"
-          class="btn-primary"
-          id="btnTambahMurid"
-        >
-          + Tambah Murid
-        </button>
 
       </div>
 
 
-      <!-- Carian dan tapisan -->
-      <section class="content-card">
+      <div class="summary-card">
 
-        <div class="filter-grid">
+        <span class="summary-icon">👦</span>
 
-          <div class="form-group">
-            <label for="carianMurid">Cari Murid</label>
-
-            <input
-              type="search"
-              id="carianMurid"
-              placeholder="Masukkan nama atau nombor daftar"
-            >
-          </div>
-
-
-          <div class="form-group">
-            <label for="tapisTahun">Tahun</label>
-
-            <select id="tapisTahun">
-              <option value="">Semua Tahun</option>
-              <option value="1">Tahun 1</option>
-              <option value="2">Tahun 2</option>
-              <option value="3">Tahun 3</option>
-              <option value="4">Tahun 4</option>
-              <option value="5">Tahun 5</option>
-              <option value="6">Tahun 6</option>
-            </select>
-          </div>
-
-
-          <div class="form-group">
-            <label for="tapisJantina">Jantina</label>
-
-            <select id="tapisJantina">
-              <option value="">Semua Jantina</option>
-              <option value="Lelaki">Lelaki</option>
-              <option value="Perempuan">Perempuan</option>
-            </select>
-          </div>
-
-
-          <div class="form-group filter-button-box">
-            <button
-              type="button"
-              class="btn-secondary"
-              id="btnResetCarian"
-            >
-              Set Semula
-            </button>
-          </div>
-
+        <div>
+          <p>Murid Lelaki</p>
+          <strong id="jumlahLelaki">0</strong>
         </div>
 
-      </section>
+      </div>
 
 
-      <!-- Jadual murid -->
-      <section class="content-card">
+      <div class="summary-card">
 
-        <div class="card-heading">
+        <span class="summary-icon">👧</span>
 
-          <div>
-            <h3>Rekod Murid</h3>
-            <p>
-              Jumlah rekod:
-              <strong id="jumlahRekodDipaparkan">0</strong>
-            </p>
-          </div>
-
+        <div>
+          <p>Murid Perempuan</p>
+          <strong id="jumlahPerempuan">0</strong>
         </div>
 
+      </div>
 
-        <div
-          class="loading-message"
-          id="loadingMessage"
-        >
-          Memuatkan data murid...
+    </section>
+
+
+    <section class="menu-grid">
+
+      <a href="senarai-murid.html" class="menu-card menu-pink">
+
+        <span class="menu-icon">📋</span>
+
+        <div>
+          <h3>Senarai Murid</h3>
+          <p>Lihat dan urus maklumat murid</p>
         </div>
 
+      </a>
 
-        <div
-          class="empty-message hidden"
-          id="emptyMessage"
-        >
-          <div class="empty-icon">📋</div>
-          <h3>Belum ada rekod murid</h3>
-          <p>Tekan butang “Tambah Murid” untuk memasukkan rekod.</p>
+
+      <a href="tambah-murid.html" class="menu-card menu-orange">
+
+        <span class="menu-icon">➕</span>
+
+        <div>
+          <h3>Tambah Murid</h3>
+          <p>Daftar maklumat murid baharu</p>
         </div>
 
+      </a>
 
-        <div class="table-wrapper">
 
-          <table id="jadualMurid">
+      <a href="kelas.html" class="menu-card menu-green">
 
-            <thead>
-              <tr>
-                <th>Bil.</th>
-                <th>No. Daftar</th>
-                <th>Nama Murid</th>
-                <th>Jantina</th>
-                <th>Tahun</th>
-                <th>Kelas</th>
-                <th>Tindakan</th>
-              </tr>
-            </thead>
+        <span class="menu-icon">🏫</span>
 
-            <tbody id="senaraiMurid">
-              <!-- Data murid dipaparkan melalui JavaScript -->
-            </tbody>
-
-          </table>
-
+        <div>
+          <h3>Senarai Kelas</h3>
+          <p>Lihat murid mengikut tahun dan kelas</p>
         </div>
 
-      </section>
+      </a>
+
+
+      <a href="statistik.html" class="menu-card menu-yellow">
+
+        <span class="menu-icon">📊</span>
+
+        <div>
+          <h3>Statistik</h3>
+          <p>Lihat jumlah dan pecahan murid</p>
+        </div>
+
+      </a>
+
+
+      <a href="maklumat-sekolah.html" class="menu-card menu-blue">
+
+        <span class="menu-icon">🏢</span>
+
+        <div>
+          <h3>Maklumat Sekolah</h3>
+          <p>Lihat maklumat guru dan kakitangan</p>
+        </div>
+
+      </a>
+
+
+      <a href="tetapan.html" class="menu-card menu-purple">
+
+        <span class="menu-icon">⚙️</span>
+
+        <div>
+          <h3>Tetapan</h3>
+          <p>Tetapan asas sistem</p>
+        </div>
+
+      </a>
 
     </section>
 
   </main>
 
 
-  <!-- =========================
-       MODAL BORANG MURID
-  ========================== -->
-  <div
-    class="modal hidden"
-    id="modalMurid"
-    aria-hidden="true"
-  >
+  <footer>
 
-    <div class="modal-overlay" id="modalOverlay"></div>
+    <p>
+      SMMSRBM – Sistem Maklumat Murid SR Batu Marang
+    </p>
 
-    <div
-      class="modal-content"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="tajukBorang"
-    >
+  </footer>
 
-      <div class="modal-header">
 
-        <div>
-          <h2 id="tajukBorang">Tambah Murid</h2>
-          <p>Lengkapkan maklumat murid di bawah.</p>
-        </div>
-
-        <button
-          type="button"
-          class="btn-close"
-          id="btnTutupModal"
-          aria-label="Tutup borang"
-        >
-          ×
-        </button>
-
-      </div>
-
-
-      <form id="borangMurid">
-
-        <!-- Menyimpan ID dokumen ketika edit -->
-        <input type="hidden" id="documentId">
-
-
-        <div class="form-section">
-
-          <h3>Maklumat Murid</h3>
-
-          <div class="form-grid">
-
-            <div class="form-group">
-              <label for="noDaftar">
-                Nombor Daftar
-                <span class="required">*</span>
-              </label>
-
-              <input
-                type="text"
-                id="noDaftar"
-                placeholder="Contoh: SRBM0001"
-                required
-              >
-            </div>
-
-
-            <div class="form-group full-width">
-              <label for="namaMurid">
-                Nama Penuh Murid
-                <span class="required">*</span>
-              </label>
-
-              <input
-                type="text"
-                id="namaMurid"
-                placeholder="Masukkan nama penuh murid"
-                required
-              >
-            </div>
-
-
-            <div class="form-group">
-              <label for="jantina">
-                Jantina
-                <span class="required">*</span>
-              </label>
-
-              <select id="jantina" required>
-                <option value="">Pilih jantina</option>
-                <option value="Lelaki">Lelaki</option>
-                <option value="Perempuan">Perempuan</option>
-              </select>
-            </div>
-
-
-            <div class="form-group">
-              <label for="tarikhLahir">Tarikh Lahir</label>
-
-              <input
-                type="date"
-                id="tarikhLahir"
-              >
-            </div>
-
-
-            <div class="form-group">
-              <label for="tahun">
-                Tahun
-                <span class="required">*</span>
-              </label>
-
-              <select id="tahun" required>
-                <option value="">Pilih tahun</option>
-                <option value="1">Tahun 1</option>
-                <option value="2">Tahun 2</option>
-                <option value="3">Tahun 3</option>
-                <option value="4">Tahun 4</option>
-                <option value="5">Tahun 5</option>
-                <option value="6">Tahun 6</option>
-              </select>
-            </div>
-
-
-            <div class="form-group">
-              <label for="kelas">
-                Kelas
-                <span class="required">*</span>
-              </label>
-
-              <input
-                type="text"
-                id="kelas"
-                placeholder="Contoh: 3A"
-                required
-              >
-            </div>
-
-
-            <div class="form-group">
-              <label for="noKadPengenalan">
-                Nombor Kad Pengenalan
-              </label>
-
-              <input
-                type="text"
-                id="noKadPengenalan"
-                placeholder="Contoh: 01-123456"
-              >
-            </div>
-
-
-            <div class="form-group">
-              <label for="bangsa">Bangsa</label>
-
-              <input
-                type="text"
-                id="bangsa"
-                placeholder="Masukkan bangsa"
-              >
-            </div>
-
-
-            <div class="form-group">
-              <label for="agama">Agama</label>
-
-              <input
-                type="text"
-                id="agama"
-                placeholder="Masukkan agama"
-              >
-            </div>
-
-
-            <div class="form-group full-width">
-              <label for="alamat">Alamat Rumah</label>
-
-              <textarea
-                id="alamat"
-                rows="3"
-                placeholder="Masukkan alamat tempat tinggal murid"
-              ></textarea>
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <div class="form-section">
-
-          <h3>Maklumat Penjaga</h3>
-
-          <div class="form-grid">
-
-            <div class="form-group full-width">
-              <label for="namaPenjaga">Nama Penjaga</label>
-
-              <input
-                type="text"
-                id="namaPenjaga"
-                placeholder="Masukkan nama penuh penjaga"
-              >
-            </div>
-
-
-            <div class="form-group">
-              <label for="hubunganPenjaga">
-                Hubungan dengan Murid
-              </label>
-
-              <select id="hubunganPenjaga">
-                <option value="">Pilih hubungan</option>
-                <option value="Bapa">Bapa</option>
-                <option value="Ibu">Ibu</option>
-                <option value="Datuk">Datuk</option>
-                <option value="Nenek">Nenek</option>
-                <option value="Abang">Abang</option>
-                <option value="Kakak">Kakak</option>
-                <option value="Penjaga">Penjaga</option>
-                <option value="Lain-lain">Lain-lain</option>
-              </select>
-            </div>
-
-
-            <div class="form-group">
-              <label for="telefonPenjaga">
-                Nombor Telefon Penjaga
-              </label>
-
-              <input
-                type="tel"
-                id="telefonPenjaga"
-                placeholder="Contoh: 8123456"
-              >
-            </div>
-
-
-            <div class="form-group full-width">
-              <label for="catatan">Catatan</label>
-
-              <textarea
-                id="catatan"
-                rows="3"
-                placeholder="Masukkan catatan tambahan jika ada"
-              ></textarea>
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <div class="form-actions">
-
-          <button
-            type="button"
-            class="btn-secondary"
-            id="btnBatal"
-          >
-            Batal
-          </button>
-
-          <button
-            type="submit"
-            class="btn-primary"
-            id="btnSimpan"
-          >
-            Simpan Maklumat
-          </button>
-
-        </div>
-
-      </form>
-
-    </div>
-
-  </div>
-
-
-  <!-- Notifikasi -->
-  <div
-    class="notification hidden"
-    id="notification"
-    role="alert"
-  >
-    <span id="notificationMessage"></span>
-  </div>
-
-
-  <!-- JavaScript utama -->
-  <script type="module" src="app.js"></script>
+  <script type="module" src="dashboard.js"></script>
 
 </body>
 </html>
