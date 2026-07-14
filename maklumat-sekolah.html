@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="ms">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta name="theme-color" content="#8b4f46">
+
+  <title>Maklumat Sekolah | SMMSRBM</title>
+
+  <link rel="manifest" href="manifest.json">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #f4f2f0;
+      color: #2f2927;
+      font-family: Arial, sans-serif;
+    }
+
+    .topbar {
+      padding: 34px 20px;
+      background: linear-gradient(135deg, #713c35, #a65e51);
+      color: white;
+      text-align: center;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.16);
+    }
+
+    .topbar h1 {
+      margin: 0;
+      font-size: 40px;
+      letter-spacing: 2px;
+    }
+
+    .topbar p {
+      margin: 10px 0 0;
+      font-size: 19px;
+    }
+
+    .container {
+      width: min(94%, 1100px);
+      margin: 38px auto;
+    }
+
+    .page-intro {
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    .page-intro h2 {
+      margin: 0;
+      color: #713c35;
+      font-size: 44px;
+      font-weight: 800;
+    }
+
+    .page-intro p {
+      margin: 14px 0 0;
+      color: #713c35;
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .school-header {
+      padding: 46px 32px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, #95564d, #bd796b);
+      color: white;
+      text-align: center;
+      box-shadow: 0 11px 30px rgba(91, 49, 43, 0.22);
+    }
+
+    .school-header .label {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      opacity: 0.94;
+    }
+
+    .school-header h3 {
+      margin: 22px 0 28px;
+      font-size: 44px;
+      font-weight: 800;
+      line-height: 1.25;
+    }
+
+    .school-details {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px 60px;
+      font-size: 22px;
+      line-height: 1.6;
+    }
+
+    .school-details span {
+      display: inline-block;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-top: 28px;
+    }
+
+    .info-card {
+      position: relative;
+      min-height: 235px;
+      padding: 34px;
+      border-radius: 22px;
+      text-align: center;
+      overflow: hidden;
+      box-shadow: 0 9px 24px rgba(0, 0, 0, 0.09);
+    }
+
+    .info-card::after {
+      content: "";
+      position: absolute;
+      right: -42px;
+      bottom: -42px;
+      width: 125px;
+      height: 125px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.34);
+    }
+
+    .info-card h3 {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 22px;
+      font-size: 30px;
+    }
+
+    .info-card p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      font-size: 23px;
+      font-weight: 500;
+      line-height: 1.8;
+      white-space: pre-line;
+    }
+
+    .card-visi {
+      background: #fff0c3;
+      border-top: 8px solid #dfa300;
+    }
+
+    .card-misi {
+      background: #dcf2e3;
+      border-top: 8px solid #319054;
+    }
+
+    .card-moto {
+      background: #dcecff;
+      border-top: 8px solid #447fc2;
+    }
+
+    .card-nilai {
+      background: #eee1f7;
+      border-top: 8px solid #8c55ac;
+    }
+
+    .card-falsafah {
+      grid-column: 1 / -1;
+      min-height: 190px;
+      background: #f9e0e8;
+      border-top: 8px solid #c75274;
+    }
+
+    .back-area {
+      margin-top: 32px;
+      text-align: center;
+    }
+
+    .back-link {
+      display: inline-block;
+      padding: 14px 25px;
+      border-radius: 12px;
+      background: #8b4f46;
+      color: white;
+      font-size: 18px;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 5px 15px rgba(139, 79, 70, 0.23);
+      transition: 0.2s;
+    }
+
+    .back-link:hover {
+      background: #713c35;
+      transform: translateY(-1px);
+    }
+
+    .loading {
+      padding: 35px;
+      border-radius: 18px;
+      background: white;
+      color: #746965;
+      text-align: center;
+      font-size: 20px;
+      box-shadow: 0 7px 22px rgba(0, 0, 0, 0.08);
+    }
+
+    footer {
+      margin-top: 38px;
+      padding: 25px;
+      color: #766a66;
+      font-size: 15px;
+      text-align: center;
+    }
+
+    @media (max-width: 750px) {
+      .topbar h1 {
+        font-size: 31px;
+      }
+
+      .topbar p {
+        font-size: 16px;
+      }
+
+      .page-intro h2 {
+        font-size: 34px;
+      }
+
+      .page-intro p {
+        font-size: 22px;
+      }
+
+      .school-header {
+        padding: 34px 20px;
+      }
+
+      .school-header h3 {
+        font-size: 31px;
+      }
+
+      .school-details {
+        display: block;
+        font-size: 19px;
+      }
+
+      .school-details span {
+        display: block;
+        margin-top: 10px;
+      }
+
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card-falsafah {
+        grid-column: auto;
+      }
+
+      .info-card {
+        min-height: auto;
+        padding: 28px 20px;
+      }
+
+      .info-card h3 {
+        font-size: 26px;
+      }
+
+      .info-card p {
+        font-size: 20px;
+      }
+
+      .back-link {
+        width: 100%;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      .topbar,
+      .back-area,
+      footer {
+        display: none;
+      }
+
+      .container {
+        width: 100%;
+        margin: 0;
+      }
+
+      .school-header,
+      .info-card {
+        box-shadow: none;
+        break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="topbar">
+    <h1>SMMSRBM</h1>
+    <p>Sistem Maklumat Murid SR Batu Marang</p>
+  </header>
+
+  <main class="container">
+
+    <div class="page-intro">
+      <h2>Maklumat Sekolah</h2>
+
+      <p>
+        Profil Rasmi Sekolah Rendah Batu Marang
+      </p>
+    </div>
+
+    <div id="paparanSekolah" class="loading">
+      Memuatkan maklumat sekolah...
+    </div>
+
+    <div class="back-area">
+      <a href="index.html" class="back-link">
+        ← Kembali ke Halaman Utama
+      </a>
+    </div>
+
+  </main>
+
+  <footer>
+    SMMSRBM — Sistem Maklumat Murid SR Batu Marang
+  </footer>
+
+  <script type="module">
+
+    import { initializeApp }
+    from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+
+    import {
+      getFirestore,
+      doc,
+      getDoc
+    }
+    from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+
+    import { firebaseConfig } from "./firebase.js";
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const paparanSekolah =
+      document.getElementById("paparanSekolah");
+
+    const rujukanSekolah =
+      doc(db, "school", "information");
+
+    let dataSekolah = {
+      namaSekolah: "Sekolah Rendah Batu Marang",
+      telefon: "2792404",
+      namaGuruBesar: "Cikgu Rohaya binti Yusof",
+      visi: "Ke arah pendidikan yang berkesan dan berkualiti.",
+      misi: "Memantapkan kecemerlangan pengajaran guru dan pembelajaran murid.",
+      moto: "Sentiasa Rajin, Maju, Bersih.",
+      nilaiSekolah: "Ceria\nMaju\nBersih",
+      falsafah: "No One Left Behind"
+    };
+
+    function selamatkan(teks) {
+      return String(teks || "-")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function paparMaklumat() {
+
+      paparanSekolah.className = "";
+
+      paparanSekolah.innerHTML = `
+
+        <section class="school-header">
+
+          <p class="label">
+            MAKLUMAT RASMI SEKOLAH
+          </p>
+
+          <h3>
+            ${selamatkan(dataSekolah.namaSekolah)}
+          </h3>
+
+          <div class="school-details">
+
+            <span>
+              ☎️
+              <strong>No. Telefon:</strong>
+              ${selamatkan(dataSekolah.telefon)}
+            </span>
+
+            <span>
+              👩‍💼
+              <strong>Guru Besar:</strong>
+              ${selamatkan(dataSekolah.namaGuruBesar)}
+            </span>
+
+          </div>
+
+        </section>
+
+        <section class="info-grid">
+
+          <article class="info-card card-visi">
+
+            <h3>🌟 Visi</h3>
+
+            <p>
+              ${selamatkan(dataSekolah.visi)}
+            </p>
+
+          </article>
+
+          <article class="info-card card-misi">
+
+            <h3>🎯 Misi</h3>
+
+            <p>
+              ${selamatkan(dataSekolah.misi)}
+            </p>
+
+          </article>
+
+          <article class="info-card card-moto">
+
+            <h3>🏆 Moto</h3>
+
+            <p>
+              ${selamatkan(dataSekolah.moto)}
+            </p>
+
+          </article>
+
+          <article class="info-card card-nilai">
+
+            <h3>💜 Nilai Sekolah</h3>
+
+            <p>
+              ${selamatkan(dataSekolah.nilaiSekolah)}
+            </p>
+
+          </article>
+
+          <article class="info-card card-falsafah">
+
+            <h3>❤️ Falsafah Sekolah</h3>
+
+            <p>
+              ${selamatkan(dataSekolah.falsafah)}
+            </p>
+
+          </article>
+
+        </section>
+
+      `;
+
+    }
+
+    async function muatMaklumatSekolah() {
+
+      try {
+
+        const snap = await getDoc(rujukanSekolah);
+
+        if (snap.exists()) {
+
+          dataSekolah = {
+            ...dataSekolah,
+            ...snap.data()
+          };
+
+        }
+
+      } catch (error) {
+
+        console.error(
+          "Maklumat Firebase tidak dapat dimuatkan:",
+          error
+        );
+
+      }
+
+      paparMaklumat();
+
+    }
+
+    muatMaklumatSekolah();
+
+  </script>
+
+</body>
+
+</html>
