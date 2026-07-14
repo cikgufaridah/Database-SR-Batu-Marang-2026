@@ -1,9 +1,25 @@
 {
-  "name": "SMMSRBM",
+  "name": "SMMSRBM - Sistem Maklumat Murid SR Batu Marang",
   "short_name": "SMMSRBM",
+  "description": "Sistem Maklumat Murid Sekolah Rendah Batu Marang, Kluster 2",
   "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#f7f7f7",
+  "orientation": "portrait-primary",
+  "background_color": "#f4f2f0",
   "theme_color": "#8b4f46",
-  "icons": []
+  "icons": [
+    {
+      "src": "images/icon-smmsrbm.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "images/icon-smmsrbm.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
 }
