@@ -1,48 +1,489 @@
 <!DOCTYPE html>
 <html lang="ms">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#8b4f46">
-<title>SMMSRBM</title>
-<link rel="stylesheet" href="style.css">
-<link rel="manifest" href="manifest.json">
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta name="theme-color" content="#8b4f46">
+
+  <title>SMMSRBM</title>
+
+  <link rel="manifest" href="manifest.json">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #f4f2f0;
+      color: #302b29;
+      font-family: Arial, sans-serif;
+    }
+
+    .main-header {
+      padding: 30px 20px 36px;
+      background: linear-gradient(135deg, #713c35, #a65e51);
+      color: white;
+      text-align: center;
+      box-shadow: 0 5px 18px rgba(0, 0, 0, 0.18);
+    }
+
+    .logo-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    .school-logo {
+      width: 135px;
+      height: 135px;
+      padding: 8px;
+      border: 5px solid rgba(255, 255, 255, 0.55);
+      border-radius: 50%;
+      background: white;
+      object-fit: contain;
+      box-shadow: 0 7px 18px rgba(0, 0, 0, 0.2);
+    }
+
+    .main-header h1 {
+      margin: 0;
+      font-size: 48px;
+      font-weight: 800;
+      letter-spacing: 4px;
+    }
+
+    .system-name {
+      margin: 10px 0 4px;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .school-name {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .ministry-name {
+      display: block;
+      margin-top: 13px;
+      font-size: 15px;
+      opacity: 0.94;
+    }
+
+    .container {
+      width: min(94%, 1100px);
+      margin: 38px auto;
+    }
+
+    .welcome-section {
+      margin-bottom: 28px;
+      text-align: center;
+    }
+
+    .welcome-section h2 {
+      margin: 0;
+      color: #713c35;
+      font-size: 40px;
+    }
+
+    .welcome-section p {
+      margin: 9px 0 0;
+      color: #776b67;
+      font-size: 19px;
+    }
+
+    .statistics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+      margin-bottom: 32px;
+    }
+
+    .stat-card {
+      padding: 28px 20px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.09);
+    }
+
+    .stat-card .icon {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 40px;
+    }
+
+    .stat-card strong {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 42px;
+    }
+
+    .stat-card p {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .stat-total {
+      background: #f8e4df;
+      border-top: 8px solid #8b4f46;
+    }
+
+    .stat-male {
+      background: #dfeeff;
+      border-top: 8px solid #477fc0;
+    }
+
+    .stat-female {
+      background: #f7e0e9;
+      border-top: 8px solid #c65a7b;
+    }
+
+    .menu-title {
+      margin: 0 0 20px;
+      color: #713c35;
+      font-size: 31px;
+      text-align: center;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .menu-card {
+      display: block;
+      min-height: 220px;
+      padding: 30px 22px;
+      border-radius: 20px;
+      color: #302b29;
+      text-align: center;
+      text-decoration: none;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.09);
+      transition: 0.2s ease;
+    }
+
+    .menu-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 27px rgba(0, 0, 0, 0.14);
+    }
+
+    .menu-icon {
+      display: block;
+      margin-bottom: 14px;
+      font-size: 52px;
+    }
+
+    .menu-card h3 {
+      margin: 0 0 11px;
+      font-size: 25px;
+    }
+
+    .menu-card p {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .menu-list {
+      background: #fff0c8;
+      border-top: 8px solid #dfa300;
+    }
+
+    .menu-add {
+      background: #dff3e5;
+      border-top: 8px solid #39965a;
+    }
+
+    .menu-school {
+      background: #eee3f6;
+      border-top: 8px solid #8d5cac;
+    }
+
+    .status-message {
+      display: none;
+      margin-top: 20px;
+      color: #713c35;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    footer {
+      margin-top: 40px;
+      padding: 25px 15px;
+      background: #ebe6e3;
+      color: #6e615d;
+      text-align: center;
+      font-size: 15px;
+    }
+
+    @media (max-width: 800px) {
+      .statistics,
+      .menu-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stat-card,
+      .menu-card {
+        min-height: auto;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .school-logo {
+        width: 105px;
+        height: 105px;
+      }
+
+      .main-header h1 {
+        font-size: 34px;
+      }
+
+      .system-name {
+        font-size: 20px;
+      }
+
+      .school-name {
+        font-size: 18px;
+      }
+
+      .welcome-section h2 {
+        font-size: 31px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-<header>
-  <h1>SMMSRBM</h1>
-  <p>Sistem Maklumat Murid SR Batu Marang</p>
-</header>
-<main class="container">
-  <h2 class="dashboard-title">Halaman Utama</h2>
-  <section class="stats">
-    <div class="stat"><p>Jumlah Murid</p><strong id="jumlahMurid">0</strong></div>
-    <div class="stat"><p>Murid Lelaki</p><strong id="jumlahLelaki">0</strong></div>
-    <div class="stat"><p>Murid Perempuan</p><strong id="jumlahPerempuan">0</strong></div>
-  </section>
-  <section class="menu">
-    <a href="senarai-murid.html"><h3>Senarai Murid</h3><p>Lihat, cari, edit dan padam maklumat murid.</p></a>
-    <a href="tambah-murid.html"><h3>Tambah Murid</h3><p>Daftar maklumat murid baharu.</p></a>
-  </section>
-</main>
-<footer>SMMSRBM — Sistem Maklumat Murid SR Batu Marang</footer>
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
-import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
-import { firebaseConfig } from "./firebase.js";
-const db=getFirestore(initializeApp(firebaseConfig));
-onSnapshot(collection(db,"students"),snap=>{
-  let lelaki=0,perempuan=0;
-  snap.forEach(d=>{
-    const x=d.data();
-    if(x.jantina==="Lelaki") lelaki++;
-    if(x.jantina==="Perempuan") perempuan++;
-  });
-  document.getElementById("jumlahMurid").textContent=snap.size;
-  document.getElementById("jumlahLelaki").textContent=lelaki;
-  document.getElementById("jumlahPerempuan").textContent=perempuan;
-});
-if("serviceWorker" in navigator){navigator.serviceWorker.register("./sw.js").catch(()=>{});}
-</script>
+
+  <header class="main-header">
+
+    <div class="logo-wrap">
+
+      <img
+        src="logo.jpg"
+        alt="Logo Sekolah Rendah Brunei"
+        class="school-logo"
+      >
+
+    </div>
+
+    <h1>SMMSRBM</h1>
+
+    <p class="system-name">
+      Sistem Maklumat Murid
+    </p>
+
+    <p class="school-name">
+      Sekolah Rendah Batu Marang
+    </p>
+
+    <small class="ministry-name">
+      Kementerian Pendidikan • Negara Brunei Darussalam
+    </small>
+
+  </header>
+
+  <main class="container">
+
+    <section class="welcome-section">
+
+      <h2>Halaman Utama</h2>
+
+      <p>
+        Pengurusan maklumat murid Sekolah Rendah Batu Marang
+      </p>
+
+    </section>
+
+    <section class="statistics">
+
+      <article class="stat-card stat-total">
+
+        <span class="icon">👨‍🎓</span>
+
+        <strong id="jumlahMurid">0</strong>
+
+        <p>Jumlah Murid</p>
+
+      </article>
+
+      <article class="stat-card stat-male">
+
+        <span class="icon">👦</span>
+
+        <strong id="jumlahLelaki">0</strong>
+
+        <p>Murid Lelaki</p>
+
+      </article>
+
+      <article class="stat-card stat-female">
+
+        <span class="icon">👧</span>
+
+        <strong id="jumlahPerempuan">0</strong>
+
+        <p>Murid Perempuan</p>
+
+      </article>
+
+    </section>
+
+    <h2 class="menu-title">
+      Menu Utama
+    </h2>
+
+    <section class="menu-grid">
+
+      <a
+        href="senarai-murid.html"
+        class="menu-card menu-list"
+      >
+
+        <span class="menu-icon">📋</span>
+
+        <h3>Senarai Murid</h3>
+
+        <p>
+          Lihat, cari, kemas kini dan padam maklumat murid.
+        </p>
+
+      </a>
+
+      <a
+        href="tambah-murid.html"
+        class="menu-card menu-add"
+      >
+
+        <span class="menu-icon">➕</span>
+
+        <h3>Tambah Murid</h3>
+
+        <p>
+          Daftarkan maklumat murid baharu ke dalam sistem.
+        </p>
+
+      </a>
+
+      <a
+        href="maklumat-sekolah.html"
+        class="menu-card menu-school"
+      >
+
+        <span class="menu-icon">🏫</span>
+
+        <h3>Maklumat Sekolah</h3>
+
+        <p>
+          Lihat profil rasmi Sekolah Rendah Batu Marang.
+        </p>
+
+      </a>
+
+    </section>
+
+    <p id="statusFirebase" class="status-message">
+      Data tidak dapat dimuatkan.
+    </p>
+
+  </main>
+
+  <footer>
+    SMMSRBM — Sistem Maklumat Murid Sekolah Rendah Batu Marang
+  </footer>
+
+  <script type="module">
+
+    import { initializeApp }
+    from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+
+    import {
+      getFirestore,
+      collection,
+      onSnapshot
+    }
+    from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+
+    import { firebaseConfig } from "./firebase.js";
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const jumlahMurid =
+      document.getElementById("jumlahMurid");
+
+    const jumlahLelaki =
+      document.getElementById("jumlahLelaki");
+
+    const jumlahPerempuan =
+      document.getElementById("jumlahPerempuan");
+
+    const statusFirebase =
+      document.getElementById("statusFirebase");
+
+    onSnapshot(
+      collection(db, "students"),
+
+      (snapshot) => {
+
+        let lelaki = 0;
+        let perempuan = 0;
+
+        snapshot.forEach((dokumen) => {
+
+          const murid = dokumen.data();
+
+          if (murid.jantina === "Lelaki") {
+            lelaki++;
+          }
+
+          if (murid.jantina === "Perempuan") {
+            perempuan++;
+          }
+
+        });
+
+        jumlahMurid.textContent = snapshot.size;
+        jumlahLelaki.textContent = lelaki;
+        jumlahPerempuan.textContent = perempuan;
+
+        statusFirebase.style.display = "none";
+
+      },
+
+      (error) => {
+
+        console.error(error);
+
+        statusFirebase.style.display = "block";
+
+      }
+    );
+
+    if ("serviceWorker" in navigator) {
+
+      navigator.serviceWorker
+        .register("./sw.js")
+        .catch((error) => {
+
+          console.error(error);
+
+        });
+
+    }
+
+  </script>
+
 </body>
+
 </html>
